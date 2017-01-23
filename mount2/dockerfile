@@ -1,0 +1,127 @@
+# Dockerfile for rta_hc_install
+
+# Import base image centos:latest from dockerhub
+FROM centos:latest
+
+# Add a HPE label and version No.
+LABEL Vendor="Hewlett Packard Enterprise" Version="0.2"
+
+# Prerequisites
+# install the basic tools needed
+RUN yum -y install wget
+RUN yum -y install bzip2
+RUN yum -y install unzip
+RUN yum -y install vim
+RUN yum -y install which
+RUN yum -y install net-tools
+RUN yum -y install openssh-clients
+RUN yum -y install openssh-server
+
+# Generate ssh keys for security purpose
+RUN ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -N ''
+RUN ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
+RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_ed25519_key -N ''
+
+WORKDIR /opt/rta_hc
+# 0.1 + Python (anaconda2) + kafka-python
+# Install python from web
+# RUN wget https://repo.continuum.io/archive/Anaconda2-4.1.1-Linux-x86_64.sh -O anaconda2.sh
+# Install python from local
+# ADD Anaconda2-4.1.1-Linux-x86_64.sh /opt/rta_hc
+# add python
+# RUN bash Anaconda2-4.1.1-Linux-x86_64.sh -b -p anaconda2
+
+# Install python from local
+ADD anaconda2.tar /opt/rta_hc
+
+# add kafka-python
+RUN anaconda2/bin/pip install kafka-python
+
+# 0.2 + Java
+# Install java from web
+# RUN wget --no-cookies --no-check-certificate --header \
+# "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+# "http://download.oracle.com/otn-pub/java/jdk/8u72-b15/jdk-8u72-linux-x64.tar.gz" -e use_proxy=yes
+# RUN gunzip jdk-8u72-linux-x64.tar.gz
+# RUN tar xvf jdk-8u72-linux-x64.tar
+# Install java from local
+ADD jdk-8u72-linux-x64.tar /opt/rta_hc
+
+# 0.3 + tomcat + simpleiothttp2kafka
+# Install Tomcat from web
+# RUN wget https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.61/bin/apache-tomcat-7.0.61.tar.gz
+# RUN gunzip apache-tomcat-7.0.61.tar.gz
+# RUN tar xvf apache-tomcat-7.0.61.tar
+# Install tomcat from local
+ADD apache-tomcat-7.0.72.tar /opt/rta_hc
+
+# Download simpleiothttp2kafka from Servlet
+# RUN wget https://github.hpe.com/vincent-planat/rta-hc-framework/blob/master/bin/simpleiohttp2kafka.war
+# RUN wget http://10.3.35.93/rta_hc/simpleiothttp2kafka.war
+# RUN mv simpleiothttp2kafka.war /opt/rta_hc/apache-tomcat-7.0.61/webapps 
+
+# Install simpleiothttp2kafka from local
+ADD simpleiothttp2kafka.war /opt/rta_hc/apache-tomcat-7.0.72/webapps
+
+# 0.4 + spark
+# Install spark from web
+# RUN wget http://apache.mirrors.spacedump.net/spark/spark-1.6.2/spark-1.6.2-bin-hadoop2.6.tgz
+# RUN tar xvf spark-1.6.2-bin-hadoop2.6.tgz
+# Install spark from local
+ADD spark-1.6.1-bin-hadoop2.6.tar /opt/rta_hc
+
+# 0.5 + kafka
+# Install kafka from web
+# RUN wget http://apache.mirrors.spacedump.net/kafka/0.9.0.0/kafka_2.10-0.9.0.0.tgz
+# RUN tar xvf kafka_2.10-0.9.0.0.tgz
+# Install kafka from local
+ADD kafka_2.10-0.9.0.0.tar /opt/rta_hc
+
+# 0.6 + cassandra
+# Add DataStax repository
+RUN touch /etc/yum.repos.d/datastax.repo
+RUN echo '[datastax]' > /etc/yum.repos.d/datastax.repo
+RUN sed -i.bak '$a\name = DataStax Repo for Apache Cassandra' /etc/yum.repos.d/datastax.repo
+RUN sed -i.bak '$a\baseurl = http://rpm.datastax.com/community' /etc/yum.repos.d/datastax.repo
+RUN sed -i.bak '$a\enabled = 1' /etc/yum.repos.d/datastax.repo
+RUN sed -i.bak '$a\gpgcheck = 0' /etc/yum.repos.d/datastax.repo
+
+# Install cassandra from web
+RUN yum -y install dsc22
+RUN yum -y install cassandra22-tools 
+
+# Add external file for Cassandra create keyspace and tables
+ADD iot_hc_schema.cql /opt/rta_hc
+
+# 0.7 + kairosdb
+# Install KairosDB from web
+# RUN wget https://github.com/kairosdb/kairosdb/releases/download/v1.1.1/kairosdb-1.1.1-1.tar.gz
+# RUN gunzip kairosdb-1.1.1-1.tar.gz
+# RUN tar xvf kairosdb-1.1.1-1.tar
+# Install kairosdb from local
+ADD kairosdb-1.1.1-1.tar /opt/rta_hc
+
+# 0.8 + grafana + kairosdb plugin
+# Install Grafana from web
+RUN yum -y install https://grafanarel.s3.amazonaws.com/builds/grafana-3.0.1-1.x86_64.rpm
+
+# add kairosdb plugin
+# Install kairosdb plugin from web
+# RUN wget https://github.com/grafana/kairosdb-datasource/archive/master.zip
+# RUN unzip master.zip
+# Install kairosdb plugin from local
+ADD kairosdb-datasource-master.tar /opt/rta_hc
+
+# 0.9 + HDFS
+# Install HDFS from web
+# RUN wget http://www-eu.apache.org/dist/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz
+# RUN gunzip hadoop-2.7.3.tar.gz
+# RUN tar xvf hadoop-2.7.3.tar
+# Install HDFS from local 
+#ADD hadoop-2.7.3.tar /opt/rta_hc
+
+# Add external file for docker start up
+# Add external file for platform management client
+ADD rta-hc-framework-master.tar /opt/rta_hc
+ADD start-docker.sh /opt/rta_hc
+

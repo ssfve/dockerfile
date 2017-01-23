@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logs</title>
+    <!-- Latest compiled and minified CSS -->
+   <link rel="stylesheet" href="/static/bootstrap.min.css" >
+   <!-- Optional theme -->
+   <link rel="stylesheet" href="/static/bootstrap-theme.min.css">
+
+   <!-- Latest compiled and minified JavaScript -->
+   <script src="/static/bootstrap.min.js"></script>
+
+   <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+   </script>
+</head>
+    <style>
+        #msg{
+            width:800px; height:800px; overflow:auto; border:2px solid #000000;background-color:#000000;color:#ffffff;
+    }
+    </style>
+</head>
+<body>
+    <div style="margin-left:5px;margin-bottom:10px"><label>Log:</label><input id='logfilter' type="text" class="form-control" placeholder="input your keywords"></div>
+    <div id="msg">
+        {% for item in log[::-1]%}
+        {{ item}}
+        <br>
+        {% endfor %}
+    </div>
+    <script src="/static/jquery-3.1.0.min.js"></script>
+    <script>
+     $(function() {
+        var orignal_messages = $("#msg").html()
+        $('#logfilter').on('input',function () {
+            var reg = $(this).val()
+            console.log(orignal_messages)
+            var messages = orignal_messages.split('<br>')
+            var result = messages.filter(function(value){ console.log(value); return value.includes(reg)})
+            console.log(result)
+            if ($('#logfilter').val()===''){
+                console.log('nill')
+                $('#msg').text('')
+                for(var i = 0;i < orignal_messages.split('<br>').length; i++){
+                    console.log(result[i])
+                    $('#msg').append(result[i])
+                    $('#msg').append('<br>')
+                }
+                $('#msg').text(str)
+            } else{
+                $('#msg').text('')
+                for(var i = 0;i < result.length; i++){
+                    console.log(result[i])
+                    $('#msg').append(result[i])
+                    $('#msg').append('<br>')
+                }
+            }
+            })
+    });
+    // $(document).ready(function() {
+    //     /* !window.WebSocket、window.MozWebSocket检测浏览器对websocket的支持*/
+    //     if (!window.WebSocket) {
+    //         if (window.MozWebSocket) {
+    //             window.WebSocket = window.MozWebSocket;
+    //         } else {
+    //             $('#msg').prepend("<p>Your broswer doesn't support websocket</p>");
+    //         }
+    //     }
+    //     /* ws = new WebSocket 创建WebSocket的实例  注意设置对以下的websocket的地址哦*/
+    //     ws = new WebSocket('ws://16.250.7.135:8000/websocket/');
+    //     /*
+    //         ws.onopen  握手完成并创建TCP/IP通道，当浏览器和WebSocketServer连接成功后，会触发onopen消息
+    //         ws.onmessage 接收到WebSocketServer发送过来的数据时，就会触发onmessage消息，参数evt中包含server传输过来的数据;
+    //     */
+    //     ws.onopen = function(evt) {
+    //         $('#msg').append('<li>Created websocket connection is successful</li>');
+    //         $()
+    //     }
+    //     ws.onmessage = function(evt) {
+    //         $('#msg').prepend('<li>' + evt.data + '</li>');
+    //     }
+    // });
+</script>
+</body>
+
+</html>

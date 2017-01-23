@@ -1,0 +1,1294 @@
+/opt/rta_hc/rta-hc-framework-master/src/rta_processor_simple_1_1.py:130: SyntaxWarning: name 'data_brokers' is used prior to global declaration
+  global data_brokers, data_topics, sensor_type_2_processed, process_start_time, app_name
+/opt/rta_hc/rta-hc-framework-master/src/rta_processor_simple_1_1.py:130: SyntaxWarning: name 'data_topics' is used prior to global declaration
+  global data_brokers, data_topics, sensor_type_2_processed, process_start_time, app_name
+2016-11-10 12:50:14,196 - rta_processor_simple_1_1.py - INFO - ==> Start real-time analysis processor for sensor type barometer...
+2016-11-10 12:50:14,197 - rta_processor_simple_1_1.py - DEBUG -     Log file will be stored in /opt/rta_hc/rta-hc-framework-master/conf/log.properties
+2016-11-10 12:50:14,197 - rta_processor_simple_1_1.py - INFO - ==> Start loading necessary variables ...
+2016-11-10 12:50:14,199 - rta_processor_simple_1_1.py - DEBUG -     predict_result_broker_list: 10.3.35.93:9092
+2016-11-10 12:50:14,199 - rta_processor_simple_1_1.py - DEBUG -     predict_result_topic: iot_har_predict_aggr
+2016-11-10 12:50:14,200 - rta_processor_simple_1_1.py - DEBUG -     data_topics: ['iot_msband2_barometer']
+2016-11-10 12:50:14,200 - rta_processor_simple_1_1.py - DEBUG -     data_brokers: 10.3.35.93:9092
+2016-11-10 12:50:14,200 - rta_processor_simple_1_1.py - DEBUG -     streaming_batch_interval: 10
+2016-11-10 12:50:14,200 - rta_processor_simple_1_1.py - DEBUG -     window seconds (Only for sklearn predict): 10000
+2016-11-10 12:50:14,200 - rta_processor_simple_1_1.py - INFO -     Finish loading necessary variables
+2016-11-10 12:50:14,200 - rta_processor_simple_1_1.py - INFO - ==> Construct Spark context with name: har_randomForest_barometer
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
+16/11/10 12:50:14 INFO SparkContext: Running Spark version 1.6.1
+16/11/10 12:50:14 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+16/11/10 12:50:14 INFO SecurityManager: Changing view acls to: root
+16/11/10 12:50:14 INFO SecurityManager: Changing modify acls to: root
+16/11/10 12:50:14 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(root); users with modify permissions: Set(root)
+16/11/10 12:50:15 INFO Utils: Successfully started service 'sparkDriver' on port 32810.
+16/11/10 12:50:15 INFO Slf4jLogger: Slf4jLogger started
+16/11/10 12:50:15 INFO Remoting: Starting remoting
+16/11/10 12:50:15 INFO Remoting: Remoting started; listening on addresses :[akka.tcp://sparkDriverActorSystem@10.3.35.93:35217]
+16/11/10 12:50:15 INFO Utils: Successfully started service 'sparkDriverActorSystem' on port 35217.
+16/11/10 12:50:15 INFO SparkEnv: Registering MapOutputTracker
+16/11/10 12:50:15 INFO SparkEnv: Registering BlockManagerMaster
+16/11/10 12:50:16 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-16fa54f1-0be4-4308-9276-b774288f66e5
+16/11/10 12:50:16 INFO MemoryStore: MemoryStore started with capacity 143.3 MB
+16/11/10 12:50:16 INFO SparkEnv: Registering OutputCommitCoordinator
+16/11/10 12:50:16 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+16/11/10 12:50:16 INFO Utils: Successfully started service 'SparkUI' on port 4041.
+16/11/10 12:50:16 INFO SparkUI: Started SparkUI at http://10.3.35.93:4041
+16/11/10 12:50:16 INFO HttpFileServer: HTTP File server directory is /tmp/spark-1060e091-cc89-465d-a8da-5cf10937fcbf/httpd-da68e129-e2b1-42dc-8011-8ad93da29605
+16/11/10 12:50:16 INFO HttpServer: Starting HTTP Server
+16/11/10 12:50:16 INFO Utils: Successfully started service 'HTTP file server' on port 35986.
+16/11/10 12:50:16 INFO SparkContext: Added JAR file:/opt/rta_hc/rta-hc-framework-master/libs/spark-streaming-kafka-assembly_2.10-1.6.0.jar at http://10.3.35.93:35986/jars/spark-streaming-kafka-assembly_2.10-1.6.0.jar with timestamp 1478778616484
+16/11/10 12:50:16 INFO Utils: Copying /opt/rta_hc/rta-hc-framework-master/src/rta_processor_simple_1_1.py to /tmp/spark-1060e091-cc89-465d-a8da-5cf10937fcbf/userFiles-4b75b888-51a1-4771-b028-694bc02f601a/rta_processor_simple_1_1.py
+16/11/10 12:50:16 INFO SparkContext: Added file file:/opt/rta_hc/rta-hc-framework-master/src/rta_processor_simple_1_1.py at http://10.3.35.93:35986/files/rta_processor_simple_1_1.py with timestamp 1478778616590
+16/11/10 12:50:16 INFO AppClient$ClientEndpoint: Connecting to master spark://10.3.35.93:7077...
+16/11/10 12:50:16 INFO SparkDeploySchedulerBackend: Connected to Spark cluster with app ID app-20161110125016-0005
+16/11/10 12:50:16 INFO AppClient$ClientEndpoint: Executor added: app-20161110125016-0005/0 on worker-20161110103105-10.3.35.93-37524 (10.3.35.93:37524) with 1 cores
+16/11/10 12:50:16 INFO SparkDeploySchedulerBackend: Granted executor ID app-20161110125016-0005/0 on hostPort 10.3.35.93:37524 with 1 cores, 2.0 GB RAM
+16/11/10 12:50:16 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 40452.
+16/11/10 12:50:16 INFO NettyBlockTransferService: Server created on 40452
+16/11/10 12:50:16 INFO BlockManagerMaster: Trying to register BlockManager
+16/11/10 12:50:16 INFO BlockManagerMasterEndpoint: Registering block manager 10.3.35.93:40452 with 143.3 MB RAM, BlockManagerId(driver, 10.3.35.93, 40452)
+16/11/10 12:50:16 INFO BlockManagerMaster: Registered BlockManager
+16/11/10 12:50:16 INFO AppClient$ClientEndpoint: Executor updated: app-20161110125016-0005/0 is now RUNNING
+16/11/10 12:50:17 INFO SparkDeploySchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+2016-11-10 12:50:17,414 - rta_processor_simple_1_1.py - DEBUG - model path list is here**************
+2016-11-10 12:50:17,414 - rta_processor_simple_1_1.py - DEBUG - aggregation_user1@sol.com_AGR_.MDL
+bn_fit_new1.bif
+sk_accelerometer_user1@sol.com_FEA_.MDL
+sk_aggrLabelPred_user1@sol.com_accelerometer.txt
+sk_aggrLabelPred_user1@sol.com_barometer.txt
+sk_aggrLabelPred_user1@sol.com_gyroscope.txt
+sk_aggr_user1@sol.com_labelEncoder
+sk_aggr_user1@sol.com_mnbModel
+sk_aggr_user1@sol.com_ohEncoder
+sk_barometer_user1@sol.com_FEA_.MDL
+sk_gyroscope_user1@sol.com_FEA_.MDL
+
+2016-11-10 12:50:17,414 - rta_processor_simple_1_1.py - INFO -     Data models in file system(/opt/rta_hc/rta-hc-framework-master/data-models) are available, and model name and its user ID are parsed SUCCESSFULLY!
+2016-11-10 12:50:17,414 - rta_processor_simple_1_1.py - DEBUG - user_id_set is here############
+2016-11-10 12:50:17,415 - rta_processor_simple_1_1.py - DEBUG - set(['user1@sol.com'])
+2016-11-10 12:50:17,415 - rta_processor_simple_1_1.py - DEBUG - sensor is here############
+2016-11-10 12:50:17,415 - rta_processor_simple_1_1.py - DEBUG - {('user1@sol.com', 'barometer'): '/opt/rta_hc/rta-hc-framework-master/data-models/sk_barometer_user1@sol.com_FEA_.MDL', ('user1@sol.com', 'accelerometer'): '/opt/rta_hc/rta-hc-framework-master/data-models/sk_accelerometer_user1@sol.com_FEA_.MDL', ('user1@sol.com', 'gyroscope'): '/opt/rta_hc/rta-hc-framework-master/data-models/sk_gyroscope_user1@sol.com_FEA_.MDL'}
+2016-11-10 12:50:17,415 - rta_processor_simple_1_1.py - DEBUG - Dm is here###### /opt/rta_hc/rta-hc-framework-master/data-models/sk_barometer_user1@sol.com_FEA_.MDL
+2016-11-10 12:50:17,417 - rta_processor_simple_1_1.py - DEBUG - User data model list are available: 
+2016-11-10 12:50:17,417 - rta_processor_simple_1_1.py - DEBUG - {'user1@sol.com': GaussianNB()}
+2016-11-10 12:50:17,417 - rta_processor_simple_1_1.py - INFO - ==> Use direct approach to receive messages from Apache Kafka ...
+16/11/10 12:50:17 INFO VerifiableProperties: Verifying properties
+16/11/10 12:50:17 INFO VerifiableProperties: Property group.id is overridden to 
+16/11/10 12:50:17 INFO VerifiableProperties: Property zookeeper.connect is overridden to 
+2016-11-10 12:50:17,955 - rta_processor_simple_1_1.py - INFO - ==> Start processing barometerensor type data ...
+2016-11-10 12:50:17,955 - rta_processor_simple_1_1.py - INFO - ==> Start sklearn model processing barometer sensor type data ...
+16/11/10 12:50:17 INFO ForEachDStream: metadataCleanupDelay = -1
+16/11/10 12:50:17 INFO PythonTransformedDStream: metadataCleanupDelay = -1
+16/11/10 12:50:17 INFO PythonTransformedDStream: metadataCleanupDelay = -1
+16/11/10 12:50:17 INFO DirectKafkaInputDStream: metadataCleanupDelay = -1
+16/11/10 12:50:17 INFO DirectKafkaInputDStream: Slide time = 10000 ms
+16/11/10 12:50:17 INFO DirectKafkaInputDStream: Storage level = StorageLevel(false, false, false, false, 1)
+16/11/10 12:50:17 INFO DirectKafkaInputDStream: Checkpoint interval = null
+16/11/10 12:50:18 INFO DirectKafkaInputDStream: Remember duration = 10000 ms
+16/11/10 12:50:18 INFO DirectKafkaInputDStream: Initialized and validated org.apache.spark.streaming.kafka.DirectKafkaInputDStream@2cae58f9
+16/11/10 12:50:18 INFO PythonTransformedDStream: Slide time = 10000 ms
+16/11/10 12:50:18 INFO PythonTransformedDStream: Storage level = StorageLevel(false, false, false, false, 1)
+16/11/10 12:50:18 INFO PythonTransformedDStream: Checkpoint interval = null
+16/11/10 12:50:18 INFO PythonTransformedDStream: Remember duration = 10000 ms
+16/11/10 12:50:18 INFO PythonTransformedDStream: Initialized and validated org.apache.spark.streaming.api.python.PythonTransformedDStream@7720d025
+16/11/10 12:50:18 INFO PythonTransformedDStream: Slide time = 10000 ms
+16/11/10 12:50:18 INFO PythonTransformedDStream: Storage level = StorageLevel(false, false, false, false, 1)
+16/11/10 12:50:18 INFO PythonTransformedDStream: Checkpoint interval = null
+16/11/10 12:50:18 INFO PythonTransformedDStream: Remember duration = 10000 ms
+16/11/10 12:50:18 INFO PythonTransformedDStream: Initialized and validated org.apache.spark.streaming.api.python.PythonTransformedDStream@7b2252e7
+16/11/10 12:50:18 INFO ForEachDStream: Slide time = 10000 ms
+16/11/10 12:50:18 INFO ForEachDStream: Storage level = StorageLevel(false, false, false, false, 1)
+16/11/10 12:50:18 INFO ForEachDStream: Checkpoint interval = null
+16/11/10 12:50:18 INFO ForEachDStream: Remember duration = 10000 ms
+16/11/10 12:50:18 INFO ForEachDStream: Initialized and validated org.apache.spark.streaming.dstream.ForEachDStream@6576abff
+16/11/10 12:50:18 INFO RecurringTimer: Started timer for JobGenerator at time 1478778620000
+16/11/10 12:50:18 INFO JobGenerator: Started JobGenerator at 1478778620000 ms
+16/11/10 12:50:18 INFO JobScheduler: Started JobScheduler
+16/11/10 12:50:18 INFO StreamingContext: StreamingContext started
+16/11/10 12:50:19 INFO SparkDeploySchedulerBackend: Registered executor NettyRpcEndpointRef(null) (hpe-smartwatch-03.hpintelco.org:36178) with ID 0
+16/11/10 12:50:19 INFO BlockManagerMasterEndpoint: Registering block manager hpe-smartwatch-03.hpintelco.org:42482 with 1247.3 MB RAM, BlockManagerId(0, hpe-smartwatch-03.hpintelco.org, 42482)
+16/11/10 12:50:20 INFO VerifiableProperties: Verifying properties
+16/11/10 12:50:20 INFO VerifiableProperties: Property group.id is overridden to 
+16/11/10 12:50:20 INFO VerifiableProperties: Property zookeeper.connect is overridden to 
+16/11/10 12:50:20 INFO JobScheduler: Added jobs for time 1478778620000 ms
+16/11/10 12:50:20 INFO JobScheduler: Starting job streaming job 1478778620000 ms.0 from job set of time 1478778620000 ms
+16/11/10 12:50:20 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:50:20 INFO DAGScheduler: Got job 0 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:50:20 INFO DAGScheduler: Final stage: ResultStage 0 (runJob at PythonRDD.scala:393)
+16/11/10 12:50:20 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:50:20 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:50:20 INFO DAGScheduler: Submitting ResultStage 0 (PythonRDD[3] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:50:20 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 6.6 KB, free 6.6 KB)
+16/11/10 12:50:20 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 3.5 KB, free 10.1 KB)
+16/11/10 12:50:20 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:50:20 INFO SparkContext: Created broadcast 0 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:50:20 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 0 (PythonRDD[3] at RDD at PythonRDD.scala:43)
+16/11/10 12:50:20 INFO TaskSchedulerImpl: Adding task set 0.0 with 1 tasks
+16/11/10 12:50:20 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:50:21 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:50:22 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 1754 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:50:22 INFO DAGScheduler: ResultStage 0 (runJob at PythonRDD.scala:393) finished in 1.763 s
+16/11/10 12:50:22 INFO TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool 
+16/11/10 12:50:22 INFO DAGScheduler: Job 0 finished: runJob at PythonRDD.scala:393, took 1.946490 s
+2016-11-10 12:50:22,320 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:50:22 INFO JobScheduler: Finished job streaming job 1478778620000 ms.0 from job set of time 1478778620000 ms
+16/11/10 12:50:22 INFO JobScheduler: Total delay: 2.321 s for time 1478778620000 ms (execution: 2.042 s)
+16/11/10 12:50:22 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:50:22 INFO InputInfoTracker: remove old batch metadata: 
+16/11/10 12:50:30 INFO JobScheduler: Added jobs for time 1478778630000 ms
+16/11/10 12:50:30 INFO JobScheduler: Starting job streaming job 1478778630000 ms.0 from job set of time 1478778630000 ms
+16/11/10 12:50:30 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:50:30 INFO DAGScheduler: Got job 1 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:50:30 INFO DAGScheduler: Final stage: ResultStage 1 (runJob at PythonRDD.scala:393)
+16/11/10 12:50:30 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:50:30 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:50:30 INFO DAGScheduler: Submitting ResultStage 1 (PythonRDD[7] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:50:30 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 6.6 KB, free 16.7 KB)
+16/11/10 12:50:30 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 3.5 KB, free 20.1 KB)
+16/11/10 12:50:30 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:50:30 INFO SparkContext: Created broadcast 1 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:50:30 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 1 (PythonRDD[7] at RDD at PythonRDD.scala:43)
+16/11/10 12:50:30 INFO TaskSchedulerImpl: Adding task set 1.0 with 1 tasks
+16/11/10 12:50:30 INFO TaskSetManager: Starting task 0.0 in stage 1.0 (TID 1, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:50:30 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:50:30 INFO TaskSetManager: Finished task 0.0 in stage 1.0 (TID 1) in 179 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:50:30 INFO TaskSchedulerImpl: Removed TaskSet 1.0, whose tasks have all completed, from pool 
+16/11/10 12:50:30 INFO DAGScheduler: ResultStage 1 (runJob at PythonRDD.scala:393) finished in 0.185 s
+16/11/10 12:50:30 INFO DAGScheduler: Job 1 finished: runJob at PythonRDD.scala:393, took 0.196318 s
+2016-11-10 12:50:30,243 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:50:30 INFO JobScheduler: Finished job streaming job 1478778630000 ms.0 from job set of time 1478778630000 ms
+16/11/10 12:50:30 INFO JobScheduler: Total delay: 0.244 s for time 1478778630000 ms (execution: 0.219 s)
+16/11/10 12:50:30 INFO PythonRDD: Removing RDD 2 from persistence list
+16/11/10 12:50:30 INFO PythonRDD: Removing RDD 1 from persistence list
+16/11/10 12:50:30 INFO KafkaRDD: Removing RDD 0 from persistence list
+16/11/10 12:50:30 INFO BlockManager: Removing RDD 2
+16/11/10 12:50:30 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:50:30 INFO InputInfoTracker: remove old batch metadata: 
+16/11/10 12:50:30 INFO BlockManager: Removing RDD 0
+16/11/10 12:50:30 INFO BlockManager: Removing RDD 1
+16/11/10 12:50:40 INFO JobScheduler: Added jobs for time 1478778640000 ms
+16/11/10 12:50:40 INFO JobScheduler: Starting job streaming job 1478778640000 ms.0 from job set of time 1478778640000 ms
+16/11/10 12:50:40 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:50:40 INFO DAGScheduler: Got job 2 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:50:40 INFO DAGScheduler: Final stage: ResultStage 2 (runJob at PythonRDD.scala:393)
+16/11/10 12:50:40 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:50:40 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:50:40 INFO DAGScheduler: Submitting ResultStage 2 (PythonRDD[11] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:50:40 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 6.6 KB, free 16.7 KB)
+16/11/10 12:50:40 INFO BlockManagerInfo: Removed broadcast_1_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:50:40 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 3.5 KB, free 20.1 KB)
+16/11/10 12:50:40 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:50:40 INFO SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:50:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 2 (PythonRDD[11] at RDD at PythonRDD.scala:43)
+16/11/10 12:50:40 INFO TaskSchedulerImpl: Adding task set 2.0 with 1 tasks
+16/11/10 12:50:40 INFO TaskSetManager: Starting task 0.0 in stage 2.0 (TID 2, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:50:40 INFO BlockManagerInfo: Removed broadcast_1_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:50:40 INFO ContextCleaner: Cleaned accumulator 3
+16/11/10 12:50:40 INFO BlockManagerInfo: Removed broadcast_0_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:50:40 INFO BlockManagerInfo: Removed broadcast_0_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.3 MB)
+16/11/10 12:50:40 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:50:40 INFO ContextCleaner: Cleaned accumulator 2
+16/11/10 12:50:40 INFO DAGScheduler: ResultStage 2 (runJob at PythonRDD.scala:393) finished in 0.186 s
+16/11/10 12:50:40 INFO TaskSetManager: Finished task 0.0 in stage 2.0 (TID 2) in 187 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:50:40 INFO DAGScheduler: Job 2 finished: runJob at PythonRDD.scala:393, took 0.202597 s
+16/11/10 12:50:40 INFO TaskSchedulerImpl: Removed TaskSet 2.0, whose tasks have all completed, from pool 
+2016-11-10 12:50:40,294 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:50:40 INFO JobScheduler: Finished job streaming job 1478778640000 ms.0 from job set of time 1478778640000 ms
+16/11/10 12:50:40 INFO JobScheduler: Total delay: 0.295 s for time 1478778640000 ms (execution: 0.253 s)
+16/11/10 12:50:40 INFO PythonRDD: Removing RDD 6 from persistence list
+16/11/10 12:50:40 INFO BlockManager: Removing RDD 6
+16/11/10 12:50:40 INFO PythonRDD: Removing RDD 5 from persistence list
+16/11/10 12:50:40 INFO KafkaRDD: Removing RDD 4 from persistence list
+16/11/10 12:50:40 INFO BlockManager: Removing RDD 4
+16/11/10 12:50:40 INFO BlockManager: Removing RDD 5
+16/11/10 12:50:40 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:50:40 INFO InputInfoTracker: remove old batch metadata: 1478778620000 ms
+16/11/10 12:50:50 INFO JobScheduler: Added jobs for time 1478778650000 ms
+16/11/10 12:50:50 INFO JobScheduler: Starting job streaming job 1478778650000 ms.0 from job set of time 1478778650000 ms
+16/11/10 12:50:50 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:50:50 INFO DAGScheduler: Got job 3 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:50:50 INFO DAGScheduler: Final stage: ResultStage 3 (runJob at PythonRDD.scala:393)
+16/11/10 12:50:50 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:50:50 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:50:50 INFO DAGScheduler: Submitting ResultStage 3 (PythonRDD[15] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:50:50 INFO MemoryStore: Block broadcast_3 stored as values in memory (estimated size 6.6 KB, free 16.7 KB)
+16/11/10 12:50:50 INFO MemoryStore: Block broadcast_3_piece0 stored as bytes in memory (estimated size 3.5 KB, free 20.1 KB)
+16/11/10 12:50:50 INFO BlockManagerInfo: Added broadcast_3_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:50:50 INFO SparkContext: Created broadcast 3 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:50:50 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 3 (PythonRDD[15] at RDD at PythonRDD.scala:43)
+16/11/10 12:50:50 INFO TaskSchedulerImpl: Adding task set 3.0 with 1 tasks
+16/11/10 12:50:50 INFO TaskSetManager: Starting task 0.0 in stage 3.0 (TID 3, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:50:50 INFO BlockManagerInfo: Added broadcast_3_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:50:50 INFO DAGScheduler: ResultStage 3 (runJob at PythonRDD.scala:393) finished in 0.356 s
+16/11/10 12:50:50 INFO DAGScheduler: Job 3 finished: runJob at PythonRDD.scala:393, took 0.369002 s
+2016-11-10 12:50:50,407 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:50:50 INFO TaskSetManager: Finished task 0.0 in stage 3.0 (TID 3) in 354 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:50:50 INFO TaskSchedulerImpl: Removed TaskSet 3.0, whose tasks have all completed, from pool 
+16/11/10 12:50:50 INFO JobScheduler: Finished job streaming job 1478778650000 ms.0 from job set of time 1478778650000 ms
+16/11/10 12:50:50 INFO JobScheduler: Total delay: 0.416 s for time 1478778650000 ms (execution: 0.394 s)
+16/11/10 12:50:50 INFO PythonRDD: Removing RDD 10 from persistence list
+16/11/10 12:50:50 INFO PythonRDD: Removing RDD 9 from persistence list
+16/11/10 12:50:50 INFO BlockManager: Removing RDD 10
+16/11/10 12:50:50 INFO BlockManager: Removing RDD 9
+16/11/10 12:50:50 INFO KafkaRDD: Removing RDD 8 from persistence list
+16/11/10 12:50:50 INFO BlockManager: Removing RDD 8
+16/11/10 12:50:50 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:50:50 INFO InputInfoTracker: remove old batch metadata: 1478778630000 ms
+16/11/10 12:51:00 INFO JobScheduler: Added jobs for time 1478778660000 ms
+16/11/10 12:51:00 INFO JobScheduler: Starting job streaming job 1478778660000 ms.0 from job set of time 1478778660000 ms
+16/11/10 12:51:00 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:51:00 INFO DAGScheduler: Got job 4 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:51:00 INFO DAGScheduler: Final stage: ResultStage 4 (runJob at PythonRDD.scala:393)
+16/11/10 12:51:00 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:51:00 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:51:00 INFO DAGScheduler: Submitting ResultStage 4 (PythonRDD[19] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:51:00 INFO MemoryStore: Block broadcast_4 stored as values in memory (estimated size 6.6 KB, free 26.7 KB)
+16/11/10 12:51:00 INFO MemoryStore: Block broadcast_4_piece0 stored as bytes in memory (estimated size 3.5 KB, free 30.2 KB)
+16/11/10 12:51:00 INFO BlockManagerInfo: Added broadcast_4_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:51:00 INFO SparkContext: Created broadcast 4 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:51:00 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 4 (PythonRDD[19] at RDD at PythonRDD.scala:43)
+16/11/10 12:51:00 INFO TaskSchedulerImpl: Adding task set 4.0 with 1 tasks
+16/11/10 12:51:00 INFO TaskSetManager: Starting task 0.0 in stage 4.0 (TID 4, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:51:00 INFO BlockManagerInfo: Added broadcast_4_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:51:00 INFO TaskSetManager: Finished task 0.0 in stage 4.0 (TID 4) in 217 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:51:00 INFO TaskSchedulerImpl: Removed TaskSet 4.0, whose tasks have all completed, from pool 
+16/11/10 12:51:00 INFO DAGScheduler: ResultStage 4 (runJob at PythonRDD.scala:393) finished in 0.219 s
+16/11/10 12:51:00 INFO DAGScheduler: Job 4 finished: runJob at PythonRDD.scala:393, took 0.228712 s
+2016-11-10 12:51:00,295 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:51:00 INFO JobScheduler: Finished job streaming job 1478778660000 ms.0 from job set of time 1478778660000 ms
+16/11/10 12:51:00 INFO JobScheduler: Total delay: 0.296 s for time 1478778660000 ms (execution: 0.272 s)
+16/11/10 12:51:00 INFO PythonRDD: Removing RDD 14 from persistence list
+16/11/10 12:51:00 INFO BlockManager: Removing RDD 14
+16/11/10 12:51:00 INFO PythonRDD: Removing RDD 13 from persistence list
+16/11/10 12:51:00 INFO BlockManager: Removing RDD 13
+16/11/10 12:51:00 INFO KafkaRDD: Removing RDD 12 from persistence list
+16/11/10 12:51:00 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:51:00 INFO InputInfoTracker: remove old batch metadata: 1478778640000 ms
+16/11/10 12:51:00 INFO BlockManager: Removing RDD 12
+16/11/10 12:51:10 INFO JobScheduler: Added jobs for time 1478778670000 ms
+16/11/10 12:51:10 INFO JobScheduler: Starting job streaming job 1478778670000 ms.0 from job set of time 1478778670000 ms
+16/11/10 12:51:10 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:51:10 INFO DAGScheduler: Got job 5 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:51:10 INFO DAGScheduler: Final stage: ResultStage 5 (runJob at PythonRDD.scala:393)
+16/11/10 12:51:10 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:51:10 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:51:10 INFO DAGScheduler: Submitting ResultStage 5 (PythonRDD[23] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:51:10 INFO MemoryStore: Block broadcast_5 stored as values in memory (estimated size 6.6 KB, free 36.8 KB)
+16/11/10 12:51:10 INFO MemoryStore: Block broadcast_5_piece0 stored as bytes in memory (estimated size 3.5 KB, free 40.2 KB)
+16/11/10 12:51:10 INFO BlockManagerInfo: Added broadcast_5_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:51:10 INFO SparkContext: Created broadcast 5 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:51:10 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 5 (PythonRDD[23] at RDD at PythonRDD.scala:43)
+16/11/10 12:51:10 INFO TaskSchedulerImpl: Adding task set 5.0 with 1 tasks
+16/11/10 12:51:10 INFO TaskSetManager: Starting task 0.0 in stage 5.0 (TID 5, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:51:10 INFO BlockManagerInfo: Added broadcast_5_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:51:10 INFO TaskSetManager: Finished task 0.0 in stage 5.0 (TID 5) in 167 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:51:10 INFO TaskSchedulerImpl: Removed TaskSet 5.0, whose tasks have all completed, from pool 
+16/11/10 12:51:10 INFO DAGScheduler: ResultStage 5 (runJob at PythonRDD.scala:393) finished in 0.167 s
+16/11/10 12:51:10 INFO DAGScheduler: Job 5 finished: runJob at PythonRDD.scala:393, took 0.198898 s
+2016-11-10 12:51:10,256 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:51:10 INFO JobScheduler: Finished job streaming job 1478778670000 ms.0 from job set of time 1478778670000 ms
+16/11/10 12:51:10 INFO JobScheduler: Total delay: 0.256 s for time 1478778670000 ms (execution: 0.224 s)
+16/11/10 12:51:10 INFO PythonRDD: Removing RDD 18 from persistence list
+16/11/10 12:51:10 INFO PythonRDD: Removing RDD 17 from persistence list
+16/11/10 12:51:10 INFO BlockManager: Removing RDD 17
+16/11/10 12:51:10 INFO KafkaRDD: Removing RDD 16 from persistence list
+16/11/10 12:51:10 INFO BlockManager: Removing RDD 18
+16/11/10 12:51:10 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:51:10 INFO InputInfoTracker: remove old batch metadata: 1478778650000 ms
+16/11/10 12:51:10 INFO BlockManager: Removing RDD 16
+16/11/10 12:51:20 INFO JobScheduler: Added jobs for time 1478778680000 ms
+16/11/10 12:51:20 INFO JobScheduler: Starting job streaming job 1478778680000 ms.0 from job set of time 1478778680000 ms
+16/11/10 12:51:20 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:51:20 INFO DAGScheduler: Got job 6 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:51:20 INFO DAGScheduler: Final stage: ResultStage 6 (runJob at PythonRDD.scala:393)
+16/11/10 12:51:20 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:51:20 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:51:20 INFO DAGScheduler: Submitting ResultStage 6 (PythonRDD[27] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:51:20 INFO MemoryStore: Block broadcast_6 stored as values in memory (estimated size 6.6 KB, free 46.8 KB)
+16/11/10 12:51:20 INFO MemoryStore: Block broadcast_6_piece0 stored as bytes in memory (estimated size 3.5 KB, free 50.3 KB)
+16/11/10 12:51:20 INFO BlockManagerInfo: Added broadcast_6_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:51:20 INFO SparkContext: Created broadcast 6 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:51:20 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 6 (PythonRDD[27] at RDD at PythonRDD.scala:43)
+16/11/10 12:51:20 INFO TaskSchedulerImpl: Adding task set 6.0 with 1 tasks
+16/11/10 12:51:20 INFO TaskSetManager: Starting task 0.0 in stage 6.0 (TID 6, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:51:20 INFO BlockManagerInfo: Added broadcast_6_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:51:20 INFO TaskSetManager: Finished task 0.0 in stage 6.0 (TID 6) in 210 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:51:20 INFO TaskSchedulerImpl: Removed TaskSet 6.0, whose tasks have all completed, from pool 
+16/11/10 12:51:20 INFO DAGScheduler: ResultStage 6 (runJob at PythonRDD.scala:393) finished in 0.209 s
+16/11/10 12:51:20 INFO DAGScheduler: Job 6 finished: runJob at PythonRDD.scala:393, took 0.220527 s
+2016-11-10 12:51:20,264 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:51:20 INFO JobScheduler: Finished job streaming job 1478778680000 ms.0 from job set of time 1478778680000 ms
+16/11/10 12:51:20 INFO JobScheduler: Total delay: 0.265 s for time 1478778680000 ms (execution: 0.238 s)
+16/11/10 12:51:20 INFO PythonRDD: Removing RDD 22 from persistence list
+16/11/10 12:51:20 INFO BlockManager: Removing RDD 22
+16/11/10 12:51:20 INFO PythonRDD: Removing RDD 21 from persistence list
+16/11/10 12:51:20 INFO KafkaRDD: Removing RDD 20 from persistence list
+16/11/10 12:51:20 INFO BlockManager: Removing RDD 21
+16/11/10 12:51:20 INFO BlockManager: Removing RDD 20
+16/11/10 12:51:20 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:51:20 INFO InputInfoTracker: remove old batch metadata: 1478778660000 ms
+16/11/10 12:51:30 INFO JobScheduler: Added jobs for time 1478778690000 ms
+16/11/10 12:51:30 INFO JobScheduler: Starting job streaming job 1478778690000 ms.0 from job set of time 1478778690000 ms
+16/11/10 12:51:30 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:51:30 INFO DAGScheduler: Got job 7 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:51:30 INFO DAGScheduler: Final stage: ResultStage 7 (runJob at PythonRDD.scala:393)
+16/11/10 12:51:30 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:51:30 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:51:30 INFO DAGScheduler: Submitting ResultStage 7 (PythonRDD[31] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:51:30 INFO MemoryStore: Block broadcast_7 stored as values in memory (estimated size 6.6 KB, free 56.9 KB)
+16/11/10 12:51:30 INFO MemoryStore: Block broadcast_7_piece0 stored as bytes in memory (estimated size 3.5 KB, free 60.4 KB)
+16/11/10 12:51:30 INFO BlockManagerInfo: Added broadcast_7_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:51:30 INFO SparkContext: Created broadcast 7 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:51:30 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 7 (PythonRDD[31] at RDD at PythonRDD.scala:43)
+16/11/10 12:51:30 INFO TaskSchedulerImpl: Adding task set 7.0 with 1 tasks
+16/11/10 12:51:30 INFO TaskSetManager: Starting task 0.0 in stage 7.0 (TID 7, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:51:30 INFO BlockManagerInfo: Added broadcast_7_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:51:30 INFO TaskSetManager: Finished task 0.0 in stage 7.0 (TID 7) in 170 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:51:30 INFO TaskSchedulerImpl: Removed TaskSet 7.0, whose tasks have all completed, from pool 
+16/11/10 12:51:30 INFO DAGScheduler: ResultStage 7 (runJob at PythonRDD.scala:393) finished in 0.170 s
+16/11/10 12:51:30 INFO DAGScheduler: Job 7 finished: runJob at PythonRDD.scala:393, took 0.183914 s
+2016-11-10 12:51:30,270 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:51:30 INFO JobScheduler: Finished job streaming job 1478778690000 ms.0 from job set of time 1478778690000 ms
+16/11/10 12:51:30 INFO JobScheduler: Total delay: 0.271 s for time 1478778690000 ms (execution: 0.245 s)
+16/11/10 12:51:30 INFO PythonRDD: Removing RDD 26 from persistence list
+16/11/10 12:51:30 INFO BlockManager: Removing RDD 26
+16/11/10 12:51:30 INFO PythonRDD: Removing RDD 25 from persistence list
+16/11/10 12:51:30 INFO BlockManager: Removing RDD 25
+16/11/10 12:51:30 INFO KafkaRDD: Removing RDD 24 from persistence list
+16/11/10 12:51:30 INFO BlockManager: Removing RDD 24
+16/11/10 12:51:30 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:51:30 INFO InputInfoTracker: remove old batch metadata: 1478778670000 ms
+16/11/10 12:51:40 INFO JobScheduler: Added jobs for time 1478778700000 ms
+16/11/10 12:51:40 INFO JobScheduler: Starting job streaming job 1478778700000 ms.0 from job set of time 1478778700000 ms
+16/11/10 12:51:40 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:51:40 INFO DAGScheduler: Got job 8 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:51:40 INFO DAGScheduler: Final stage: ResultStage 8 (runJob at PythonRDD.scala:393)
+16/11/10 12:51:40 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:51:40 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:51:40 INFO DAGScheduler: Submitting ResultStage 8 (PythonRDD[35] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:51:40 INFO MemoryStore: Block broadcast_8 stored as values in memory (estimated size 6.6 KB, free 67.0 KB)
+16/11/10 12:51:40 INFO MemoryStore: Block broadcast_8_piece0 stored as bytes in memory (estimated size 3.5 KB, free 70.4 KB)
+16/11/10 12:51:40 INFO BlockManagerInfo: Added broadcast_8_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:51:40 INFO SparkContext: Created broadcast 8 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:51:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 8 (PythonRDD[35] at RDD at PythonRDD.scala:43)
+16/11/10 12:51:40 INFO TaskSchedulerImpl: Adding task set 8.0 with 1 tasks
+16/11/10 12:51:40 INFO TaskSetManager: Starting task 0.0 in stage 8.0 (TID 8, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:51:40 INFO BlockManagerInfo: Added broadcast_8_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:51:40 INFO TaskSetManager: Finished task 0.0 in stage 8.0 (TID 8) in 221 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:51:40 INFO TaskSchedulerImpl: Removed TaskSet 8.0, whose tasks have all completed, from pool 
+16/11/10 12:51:40 INFO DAGScheduler: ResultStage 8 (runJob at PythonRDD.scala:393) finished in 0.221 s
+16/11/10 12:51:40 INFO DAGScheduler: Job 8 finished: runJob at PythonRDD.scala:393, took 0.242673 s
+2016-11-10 12:51:40,312 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:51:40 INFO JobScheduler: Finished job streaming job 1478778700000 ms.0 from job set of time 1478778700000 ms
+16/11/10 12:51:40 INFO JobScheduler: Total delay: 0.312 s for time 1478778700000 ms (execution: 0.280 s)
+16/11/10 12:51:40 INFO PythonRDD: Removing RDD 30 from persistence list
+16/11/10 12:51:40 INFO BlockManager: Removing RDD 30
+16/11/10 12:51:40 INFO PythonRDD: Removing RDD 29 from persistence list
+16/11/10 12:51:40 INFO KafkaRDD: Removing RDD 28 from persistence list
+16/11/10 12:51:40 INFO BlockManager: Removing RDD 29
+16/11/10 12:51:40 INFO BlockManager: Removing RDD 28
+16/11/10 12:51:40 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:51:40 INFO InputInfoTracker: remove old batch metadata: 1478778680000 ms
+16/11/10 12:51:50 INFO JobScheduler: Added jobs for time 1478778710000 ms
+16/11/10 12:51:50 INFO JobScheduler: Starting job streaming job 1478778710000 ms.0 from job set of time 1478778710000 ms
+16/11/10 12:51:50 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:51:50 INFO DAGScheduler: Got job 9 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:51:50 INFO DAGScheduler: Final stage: ResultStage 9 (runJob at PythonRDD.scala:393)
+16/11/10 12:51:50 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:51:50 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:51:50 INFO DAGScheduler: Submitting ResultStage 9 (PythonRDD[39] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:51:50 INFO MemoryStore: Block broadcast_9 stored as values in memory (estimated size 6.6 KB, free 77.0 KB)
+16/11/10 12:51:50 INFO MemoryStore: Block broadcast_9_piece0 stored as bytes in memory (estimated size 3.5 KB, free 80.5 KB)
+16/11/10 12:51:50 INFO BlockManagerInfo: Added broadcast_9_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:51:50 INFO SparkContext: Created broadcast 9 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:51:50 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 9 (PythonRDD[39] at RDD at PythonRDD.scala:43)
+16/11/10 12:51:50 INFO TaskSchedulerImpl: Adding task set 9.0 with 1 tasks
+16/11/10 12:51:50 INFO TaskSetManager: Starting task 0.0 in stage 9.0 (TID 9, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:51:50 INFO BlockManagerInfo: Added broadcast_9_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:51:50 INFO TaskSetManager: Finished task 0.0 in stage 9.0 (TID 9) in 178 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:51:50 INFO TaskSchedulerImpl: Removed TaskSet 9.0, whose tasks have all completed, from pool 
+16/11/10 12:51:50 INFO DAGScheduler: ResultStage 9 (runJob at PythonRDD.scala:393) finished in 0.179 s
+16/11/10 12:51:50 INFO DAGScheduler: Job 9 finished: runJob at PythonRDD.scala:393, took 0.188558 s
+2016-11-10 12:51:50,230 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:51:50 INFO JobScheduler: Finished job streaming job 1478778710000 ms.0 from job set of time 1478778710000 ms
+16/11/10 12:51:50 INFO JobScheduler: Total delay: 0.231 s for time 1478778710000 ms (execution: 0.206 s)
+16/11/10 12:51:50 INFO PythonRDD: Removing RDD 34 from persistence list
+16/11/10 12:51:50 INFO PythonRDD: Removing RDD 33 from persistence list
+16/11/10 12:51:50 INFO BlockManager: Removing RDD 34
+16/11/10 12:51:50 INFO KafkaRDD: Removing RDD 32 from persistence list
+16/11/10 12:51:50 INFO BlockManager: Removing RDD 33
+16/11/10 12:51:50 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:51:50 INFO InputInfoTracker: remove old batch metadata: 1478778690000 ms
+16/11/10 12:51:50 INFO BlockManager: Removing RDD 32
+16/11/10 12:52:00 INFO JobScheduler: Added jobs for time 1478778720000 ms
+16/11/10 12:52:00 INFO JobScheduler: Starting job streaming job 1478778720000 ms.0 from job set of time 1478778720000 ms
+16/11/10 12:52:00 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:52:00 INFO DAGScheduler: Got job 10 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:52:00 INFO DAGScheduler: Final stage: ResultStage 10 (runJob at PythonRDD.scala:393)
+16/11/10 12:52:00 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:52:00 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:52:00 INFO DAGScheduler: Submitting ResultStage 10 (PythonRDD[43] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:52:00 INFO MemoryStore: Block broadcast_10 stored as values in memory (estimated size 6.6 KB, free 87.1 KB)
+16/11/10 12:52:00 INFO MemoryStore: Block broadcast_10_piece0 stored as bytes in memory (estimated size 3.5 KB, free 90.6 KB)
+16/11/10 12:52:00 INFO BlockManagerInfo: Added broadcast_10_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:52:00 INFO SparkContext: Created broadcast 10 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:52:00 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 10 (PythonRDD[43] at RDD at PythonRDD.scala:43)
+16/11/10 12:52:00 INFO TaskSchedulerImpl: Adding task set 10.0 with 1 tasks
+16/11/10 12:52:00 INFO TaskSetManager: Starting task 0.0 in stage 10.0 (TID 10, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:52:00 INFO BlockManagerInfo: Added broadcast_10_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:52:00 INFO TaskSetManager: Finished task 0.0 in stage 10.0 (TID 10) in 154 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:52:00 INFO TaskSchedulerImpl: Removed TaskSet 10.0, whose tasks have all completed, from pool 
+16/11/10 12:52:00 INFO DAGScheduler: ResultStage 10 (runJob at PythonRDD.scala:393) finished in 0.157 s
+16/11/10 12:52:00 INFO DAGScheduler: Job 10 finished: runJob at PythonRDD.scala:393, took 0.168656 s
+2016-11-10 12:52:00,245 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:52:00 INFO JobScheduler: Finished job streaming job 1478778720000 ms.0 from job set of time 1478778720000 ms
+16/11/10 12:52:00 INFO JobScheduler: Total delay: 0.246 s for time 1478778720000 ms (execution: 0.188 s)
+16/11/10 12:52:00 INFO PythonRDD: Removing RDD 38 from persistence list
+16/11/10 12:52:00 INFO BlockManager: Removing RDD 38
+16/11/10 12:52:00 INFO PythonRDD: Removing RDD 37 from persistence list
+16/11/10 12:52:00 INFO BlockManager: Removing RDD 37
+16/11/10 12:52:00 INFO KafkaRDD: Removing RDD 36 from persistence list
+16/11/10 12:52:00 INFO BlockManager: Removing RDD 36
+16/11/10 12:52:00 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:52:00 INFO InputInfoTracker: remove old batch metadata: 1478778700000 ms
+16/11/10 12:52:10 INFO JobScheduler: Added jobs for time 1478778730000 ms
+16/11/10 12:52:10 INFO JobScheduler: Starting job streaming job 1478778730000 ms.0 from job set of time 1478778730000 ms
+16/11/10 12:52:10 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:52:10 INFO DAGScheduler: Got job 11 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:52:10 INFO DAGScheduler: Final stage: ResultStage 11 (runJob at PythonRDD.scala:393)
+16/11/10 12:52:10 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:52:10 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:52:10 INFO DAGScheduler: Submitting ResultStage 11 (PythonRDD[47] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:52:10 INFO MemoryStore: Block broadcast_11 stored as values in memory (estimated size 6.6 KB, free 97.2 KB)
+16/11/10 12:52:10 INFO MemoryStore: Block broadcast_11_piece0 stored as bytes in memory (estimated size 3.5 KB, free 100.6 KB)
+16/11/10 12:52:10 INFO BlockManagerInfo: Added broadcast_11_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:52:10 INFO SparkContext: Created broadcast 11 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:52:10 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 11 (PythonRDD[47] at RDD at PythonRDD.scala:43)
+16/11/10 12:52:10 INFO TaskSchedulerImpl: Adding task set 11.0 with 1 tasks
+16/11/10 12:52:10 INFO TaskSetManager: Starting task 0.0 in stage 11.0 (TID 11, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:52:10 INFO BlockManagerInfo: Added broadcast_11_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:52:10 INFO TaskSetManager: Finished task 0.0 in stage 11.0 (TID 11) in 173 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:52:10 INFO TaskSchedulerImpl: Removed TaskSet 11.0, whose tasks have all completed, from pool 
+16/11/10 12:52:10 INFO DAGScheduler: ResultStage 11 (runJob at PythonRDD.scala:393) finished in 0.165 s
+16/11/10 12:52:10 INFO DAGScheduler: Job 11 finished: runJob at PythonRDD.scala:393, took 0.190436 s
+2016-11-10 12:52:10,246 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:52:10 INFO JobScheduler: Finished job streaming job 1478778730000 ms.0 from job set of time 1478778730000 ms
+16/11/10 12:52:10 INFO JobScheduler: Total delay: 0.247 s for time 1478778730000 ms (execution: 0.209 s)
+16/11/10 12:52:10 INFO PythonRDD: Removing RDD 42 from persistence list
+16/11/10 12:52:10 INFO BlockManager: Removing RDD 42
+16/11/10 12:52:10 INFO PythonRDD: Removing RDD 41 from persistence list
+16/11/10 12:52:10 INFO BlockManager: Removing RDD 41
+16/11/10 12:52:10 INFO KafkaRDD: Removing RDD 40 from persistence list
+16/11/10 12:52:10 INFO BlockManager: Removing RDD 40
+16/11/10 12:52:10 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:52:10 INFO InputInfoTracker: remove old batch metadata: 1478778710000 ms
+16/11/10 12:52:20 INFO JobScheduler: Added jobs for time 1478778740000 ms
+16/11/10 12:52:20 INFO JobScheduler: Starting job streaming job 1478778740000 ms.0 from job set of time 1478778740000 ms
+16/11/10 12:52:20 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:52:20 INFO DAGScheduler: Got job 12 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:52:20 INFO DAGScheduler: Final stage: ResultStage 12 (runJob at PythonRDD.scala:393)
+16/11/10 12:52:20 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:52:20 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:52:20 INFO DAGScheduler: Submitting ResultStage 12 (PythonRDD[51] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:52:20 INFO MemoryStore: Block broadcast_12 stored as values in memory (estimated size 6.6 KB, free 107.2 KB)
+16/11/10 12:52:20 INFO MemoryStore: Block broadcast_12_piece0 stored as bytes in memory (estimated size 3.5 KB, free 110.7 KB)
+16/11/10 12:52:20 INFO BlockManagerInfo: Added broadcast_12_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:52:20 INFO SparkContext: Created broadcast 12 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:52:20 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 12 (PythonRDD[51] at RDD at PythonRDD.scala:43)
+16/11/10 12:52:20 INFO TaskSchedulerImpl: Adding task set 12.0 with 1 tasks
+16/11/10 12:52:20 INFO TaskSetManager: Starting task 0.0 in stage 12.0 (TID 12, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:52:20 INFO BlockManagerInfo: Added broadcast_12_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:52:20 INFO TaskSetManager: Finished task 0.0 in stage 12.0 (TID 12) in 153 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:52:20 INFO TaskSchedulerImpl: Removed TaskSet 12.0, whose tasks have all completed, from pool 
+16/11/10 12:52:20 INFO DAGScheduler: ResultStage 12 (runJob at PythonRDD.scala:393) finished in 0.153 s
+16/11/10 12:52:20 INFO DAGScheduler: Job 12 finished: runJob at PythonRDD.scala:393, took 0.163432 s
+2016-11-10 12:52:20,212 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:52:20 INFO JobScheduler: Finished job streaming job 1478778740000 ms.0 from job set of time 1478778740000 ms
+16/11/10 12:52:20 INFO JobScheduler: Total delay: 0.213 s for time 1478778740000 ms (execution: 0.186 s)
+16/11/10 12:52:20 INFO PythonRDD: Removing RDD 46 from persistence list
+16/11/10 12:52:20 INFO PythonRDD: Removing RDD 45 from persistence list
+16/11/10 12:52:20 INFO BlockManager: Removing RDD 46
+16/11/10 12:52:20 INFO BlockManager: Removing RDD 45
+16/11/10 12:52:20 INFO KafkaRDD: Removing RDD 44 from persistence list
+16/11/10 12:52:20 INFO BlockManager: Removing RDD 44
+16/11/10 12:52:20 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:52:20 INFO InputInfoTracker: remove old batch metadata: 1478778720000 ms
+16/11/10 12:52:30 INFO JobScheduler: Added jobs for time 1478778750000 ms
+16/11/10 12:52:30 INFO JobScheduler: Starting job streaming job 1478778750000 ms.0 from job set of time 1478778750000 ms
+16/11/10 12:52:30 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:52:30 INFO DAGScheduler: Got job 13 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:52:30 INFO DAGScheduler: Final stage: ResultStage 13 (runJob at PythonRDD.scala:393)
+16/11/10 12:52:30 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:52:30 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:52:30 INFO DAGScheduler: Submitting ResultStage 13 (PythonRDD[55] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:52:30 INFO MemoryStore: Block broadcast_13 stored as values in memory (estimated size 6.6 KB, free 117.3 KB)
+16/11/10 12:52:30 INFO MemoryStore: Block broadcast_13_piece0 stored as bytes in memory (estimated size 3.5 KB, free 120.8 KB)
+16/11/10 12:52:30 INFO BlockManagerInfo: Added broadcast_13_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:52:30 INFO SparkContext: Created broadcast 13 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:52:30 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 13 (PythonRDD[55] at RDD at PythonRDD.scala:43)
+16/11/10 12:52:30 INFO TaskSchedulerImpl: Adding task set 13.0 with 1 tasks
+16/11/10 12:52:30 INFO TaskSetManager: Starting task 0.0 in stage 13.0 (TID 13, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:52:30 INFO BlockManagerInfo: Added broadcast_13_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:52:30 INFO TaskSetManager: Finished task 0.0 in stage 13.0 (TID 13) in 162 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:52:30 INFO TaskSchedulerImpl: Removed TaskSet 13.0, whose tasks have all completed, from pool 
+16/11/10 12:52:30 INFO DAGScheduler: ResultStage 13 (runJob at PythonRDD.scala:393) finished in 0.164 s
+16/11/10 12:52:30 INFO DAGScheduler: Job 13 finished: runJob at PythonRDD.scala:393, took 0.171808 s
+2016-11-10 12:52:30,269 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:52:30 INFO JobScheduler: Finished job streaming job 1478778750000 ms.0 from job set of time 1478778750000 ms
+16/11/10 12:52:30 INFO JobScheduler: Total delay: 0.270 s for time 1478778750000 ms (execution: 0.202 s)
+16/11/10 12:52:30 INFO PythonRDD: Removing RDD 50 from persistence list
+16/11/10 12:52:30 INFO BlockManager: Removing RDD 50
+16/11/10 12:52:30 INFO PythonRDD: Removing RDD 49 from persistence list
+16/11/10 12:52:30 INFO BlockManager: Removing RDD 49
+16/11/10 12:52:30 INFO KafkaRDD: Removing RDD 48 from persistence list
+16/11/10 12:52:30 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:52:30 INFO InputInfoTracker: remove old batch metadata: 1478778730000 ms
+16/11/10 12:52:30 INFO BlockManager: Removing RDD 48
+16/11/10 12:52:40 INFO JobScheduler: Added jobs for time 1478778760000 ms
+16/11/10 12:52:40 INFO JobScheduler: Starting job streaming job 1478778760000 ms.0 from job set of time 1478778760000 ms
+16/11/10 12:52:40 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:52:40 INFO DAGScheduler: Got job 14 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:52:40 INFO DAGScheduler: Final stage: ResultStage 14 (runJob at PythonRDD.scala:393)
+16/11/10 12:52:40 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:52:40 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:52:40 INFO DAGScheduler: Submitting ResultStage 14 (PythonRDD[59] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:52:40 INFO MemoryStore: Block broadcast_14 stored as values in memory (estimated size 6.6 KB, free 127.3 KB)
+16/11/10 12:52:40 INFO MemoryStore: Block broadcast_14_piece0 stored as bytes in memory (estimated size 3.5 KB, free 130.8 KB)
+16/11/10 12:52:40 INFO BlockManagerInfo: Added broadcast_14_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:52:40 INFO SparkContext: Created broadcast 14 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:52:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 14 (PythonRDD[59] at RDD at PythonRDD.scala:43)
+16/11/10 12:52:40 INFO TaskSchedulerImpl: Adding task set 14.0 with 1 tasks
+16/11/10 12:52:40 INFO TaskSetManager: Starting task 0.0 in stage 14.0 (TID 14, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:52:40 INFO BlockManagerInfo: Added broadcast_14_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:52:40 INFO TaskSetManager: Finished task 0.0 in stage 14.0 (TID 14) in 163 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:52:40 INFO TaskSchedulerImpl: Removed TaskSet 14.0, whose tasks have all completed, from pool 
+16/11/10 12:52:40 INFO DAGScheduler: ResultStage 14 (runJob at PythonRDD.scala:393) finished in 0.163 s
+16/11/10 12:52:40 INFO DAGScheduler: Job 14 finished: runJob at PythonRDD.scala:393, took 0.175908 s
+2016-11-10 12:52:40,220 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:52:40 INFO JobScheduler: Finished job streaming job 1478778760000 ms.0 from job set of time 1478778760000 ms
+16/11/10 12:52:40 INFO JobScheduler: Total delay: 0.221 s for time 1478778760000 ms (execution: 0.193 s)
+16/11/10 12:52:40 INFO PythonRDD: Removing RDD 54 from persistence list
+16/11/10 12:52:40 INFO BlockManager: Removing RDD 54
+16/11/10 12:52:40 INFO PythonRDD: Removing RDD 53 from persistence list
+16/11/10 12:52:40 INFO KafkaRDD: Removing RDD 52 from persistence list
+16/11/10 12:52:40 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:52:40 INFO InputInfoTracker: remove old batch metadata: 1478778740000 ms
+16/11/10 12:52:40 INFO BlockManager: Removing RDD 53
+16/11/10 12:52:40 INFO BlockManager: Removing RDD 52
+16/11/10 12:52:50 INFO JobScheduler: Added jobs for time 1478778770000 ms
+16/11/10 12:52:50 INFO JobScheduler: Starting job streaming job 1478778770000 ms.0 from job set of time 1478778770000 ms
+16/11/10 12:52:50 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:52:50 INFO DAGScheduler: Got job 15 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:52:50 INFO DAGScheduler: Final stage: ResultStage 15 (runJob at PythonRDD.scala:393)
+16/11/10 12:52:50 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:52:50 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:52:50 INFO DAGScheduler: Submitting ResultStage 15 (PythonRDD[63] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:52:50 INFO MemoryStore: Block broadcast_15 stored as values in memory (estimated size 6.6 KB, free 137.4 KB)
+16/11/10 12:52:50 INFO MemoryStore: Block broadcast_15_piece0 stored as bytes in memory (estimated size 3.5 KB, free 140.9 KB)
+16/11/10 12:52:50 INFO BlockManagerInfo: Added broadcast_15_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:52:50 INFO SparkContext: Created broadcast 15 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:52:50 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 15 (PythonRDD[63] at RDD at PythonRDD.scala:43)
+16/11/10 12:52:50 INFO TaskSchedulerImpl: Adding task set 15.0 with 1 tasks
+16/11/10 12:52:50 INFO TaskSetManager: Starting task 0.0 in stage 15.0 (TID 15, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:52:50 INFO BlockManagerInfo: Added broadcast_15_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:52:50 INFO TaskSetManager: Finished task 0.0 in stage 15.0 (TID 15) in 193 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:52:50 INFO TaskSchedulerImpl: Removed TaskSet 15.0, whose tasks have all completed, from pool 
+16/11/10 12:52:50 INFO DAGScheduler: ResultStage 15 (runJob at PythonRDD.scala:393) finished in 0.193 s
+16/11/10 12:52:50 INFO DAGScheduler: Job 15 finished: runJob at PythonRDD.scala:393, took 0.207229 s
+2016-11-10 12:52:50,249 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:52:50 INFO JobScheduler: Finished job streaming job 1478778770000 ms.0 from job set of time 1478778770000 ms
+16/11/10 12:52:50 INFO JobScheduler: Total delay: 0.249 s for time 1478778770000 ms (execution: 0.228 s)
+16/11/10 12:52:50 INFO PythonRDD: Removing RDD 58 from persistence list
+16/11/10 12:52:50 INFO BlockManager: Removing RDD 58
+16/11/10 12:52:50 INFO PythonRDD: Removing RDD 57 from persistence list
+16/11/10 12:52:50 INFO BlockManager: Removing RDD 57
+16/11/10 12:52:50 INFO KafkaRDD: Removing RDD 56 from persistence list
+16/11/10 12:52:50 INFO BlockManager: Removing RDD 56
+16/11/10 12:52:50 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:52:50 INFO InputInfoTracker: remove old batch metadata: 1478778750000 ms
+16/11/10 12:53:00 INFO JobScheduler: Added jobs for time 1478778780000 ms
+16/11/10 12:53:00 INFO JobScheduler: Starting job streaming job 1478778780000 ms.0 from job set of time 1478778780000 ms
+16/11/10 12:53:00 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:53:00 INFO DAGScheduler: Got job 16 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:53:00 INFO DAGScheduler: Final stage: ResultStage 16 (runJob at PythonRDD.scala:393)
+16/11/10 12:53:00 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:53:00 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:53:00 INFO DAGScheduler: Submitting ResultStage 16 (PythonRDD[67] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:53:00 INFO MemoryStore: Block broadcast_16 stored as values in memory (estimated size 6.6 KB, free 147.5 KB)
+16/11/10 12:53:00 INFO MemoryStore: Block broadcast_16_piece0 stored as bytes in memory (estimated size 3.5 KB, free 150.9 KB)
+16/11/10 12:53:00 INFO BlockManagerInfo: Added broadcast_16_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:00 INFO SparkContext: Created broadcast 16 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:53:00 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 16 (PythonRDD[67] at RDD at PythonRDD.scala:43)
+16/11/10 12:53:00 INFO TaskSchedulerImpl: Adding task set 16.0 with 1 tasks
+16/11/10 12:53:00 INFO TaskSetManager: Starting task 0.0 in stage 16.0 (TID 16, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:53:00 INFO BlockManagerInfo: Added broadcast_16_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:00 INFO TaskSetManager: Finished task 0.0 in stage 16.0 (TID 16) in 182 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:53:00 INFO TaskSchedulerImpl: Removed TaskSet 16.0, whose tasks have all completed, from pool 
+16/11/10 12:53:00 INFO DAGScheduler: ResultStage 16 (runJob at PythonRDD.scala:393) finished in 0.183 s
+16/11/10 12:53:00 INFO DAGScheduler: Job 16 finished: runJob at PythonRDD.scala:393, took 0.192024 s
+2016-11-10 12:53:00,268 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:53:00 INFO JobScheduler: Finished job streaming job 1478778780000 ms.0 from job set of time 1478778780000 ms
+16/11/10 12:53:00 INFO JobScheduler: Total delay: 0.270 s for time 1478778780000 ms (execution: 0.217 s)
+16/11/10 12:53:00 INFO PythonRDD: Removing RDD 62 from persistence list
+16/11/10 12:53:00 INFO PythonRDD: Removing RDD 61 from persistence list
+16/11/10 12:53:00 INFO BlockManager: Removing RDD 62
+16/11/10 12:53:00 INFO KafkaRDD: Removing RDD 60 from persistence list
+16/11/10 12:53:00 INFO BlockManager: Removing RDD 61
+16/11/10 12:53:00 INFO BlockManager: Removing RDD 60
+16/11/10 12:53:00 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:53:00 INFO InputInfoTracker: remove old batch metadata: 1478778760000 ms
+16/11/10 12:53:10 INFO JobScheduler: Added jobs for time 1478778790000 ms
+16/11/10 12:53:10 INFO JobScheduler: Starting job streaming job 1478778790000 ms.0 from job set of time 1478778790000 ms
+16/11/10 12:53:10 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:53:10 INFO DAGScheduler: Got job 17 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:53:10 INFO DAGScheduler: Final stage: ResultStage 17 (runJob at PythonRDD.scala:393)
+16/11/10 12:53:10 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:53:10 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:53:10 INFO DAGScheduler: Submitting ResultStage 17 (PythonRDD[71] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:53:10 INFO MemoryStore: Block broadcast_17 stored as values in memory (estimated size 6.6 KB, free 157.5 KB)
+16/11/10 12:53:10 INFO MemoryStore: Block broadcast_17_piece0 stored as bytes in memory (estimated size 3.5 KB, free 161.0 KB)
+16/11/10 12:53:10 INFO BlockManagerInfo: Added broadcast_17_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:10 INFO SparkContext: Created broadcast 17 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:53:10 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 17 (PythonRDD[71] at RDD at PythonRDD.scala:43)
+16/11/10 12:53:10 INFO TaskSchedulerImpl: Adding task set 17.0 with 1 tasks
+16/11/10 12:53:10 INFO TaskSetManager: Starting task 0.0 in stage 17.0 (TID 17, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:53:10 INFO BlockManagerInfo: Added broadcast_17_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:10 INFO TaskSetManager: Finished task 0.0 in stage 17.0 (TID 17) in 179 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:53:10 INFO TaskSchedulerImpl: Removed TaskSet 17.0, whose tasks have all completed, from pool 
+16/11/10 12:53:10 INFO DAGScheduler: ResultStage 17 (runJob at PythonRDD.scala:393) finished in 0.184 s
+16/11/10 12:53:10 INFO DAGScheduler: Job 17 finished: runJob at PythonRDD.scala:393, took 0.192922 s
+2016-11-10 12:53:10,259 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:53:10 INFO JobScheduler: Finished job streaming job 1478778790000 ms.0 from job set of time 1478778790000 ms
+16/11/10 12:53:10 INFO JobScheduler: Total delay: 0.259 s for time 1478778790000 ms (execution: 0.221 s)
+16/11/10 12:53:10 INFO PythonRDD: Removing RDD 66 from persistence list
+16/11/10 12:53:10 INFO BlockManager: Removing RDD 66
+16/11/10 12:53:10 INFO PythonRDD: Removing RDD 65 from persistence list
+16/11/10 12:53:10 INFO KafkaRDD: Removing RDD 64 from persistence list
+16/11/10 12:53:10 INFO BlockManager: Removing RDD 65
+16/11/10 12:53:10 INFO BlockManager: Removing RDD 64
+16/11/10 12:53:10 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:53:10 INFO InputInfoTracker: remove old batch metadata: 1478778770000 ms
+16/11/10 12:53:20 INFO JobScheduler: Added jobs for time 1478778800000 ms
+16/11/10 12:53:20 INFO JobScheduler: Starting job streaming job 1478778800000 ms.0 from job set of time 1478778800000 ms
+16/11/10 12:53:20 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:53:20 INFO DAGScheduler: Got job 18 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:53:20 INFO DAGScheduler: Final stage: ResultStage 18 (runJob at PythonRDD.scala:393)
+16/11/10 12:53:20 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:53:20 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:53:20 INFO DAGScheduler: Submitting ResultStage 18 (PythonRDD[75] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:53:20 INFO MemoryStore: Block broadcast_18 stored as values in memory (estimated size 6.6 KB, free 167.6 KB)
+16/11/10 12:53:20 INFO MemoryStore: Block broadcast_18_piece0 stored as bytes in memory (estimated size 3.5 KB, free 171.1 KB)
+16/11/10 12:53:20 INFO BlockManagerInfo: Added broadcast_18_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:20 INFO SparkContext: Created broadcast 18 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:53:20 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 18 (PythonRDD[75] at RDD at PythonRDD.scala:43)
+16/11/10 12:53:20 INFO TaskSchedulerImpl: Adding task set 18.0 with 1 tasks
+16/11/10 12:53:20 INFO TaskSetManager: Starting task 0.0 in stage 18.0 (TID 18, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:53:20 INFO BlockManagerInfo: Added broadcast_18_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:20 INFO TaskSetManager: Finished task 0.0 in stage 18.0 (TID 18) in 160 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:53:20 INFO TaskSchedulerImpl: Removed TaskSet 18.0, whose tasks have all completed, from pool 
+16/11/10 12:53:20 INFO DAGScheduler: ResultStage 18 (runJob at PythonRDD.scala:393) finished in 0.159 s
+16/11/10 12:53:20 INFO DAGScheduler: Job 18 finished: runJob at PythonRDD.scala:393, took 0.167130 s
+2016-11-10 12:53:20,201 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:53:20 INFO JobScheduler: Finished job streaming job 1478778800000 ms.0 from job set of time 1478778800000 ms
+16/11/10 12:53:20 INFO JobScheduler: Total delay: 0.202 s for time 1478778800000 ms (execution: 0.182 s)
+16/11/10 12:53:20 INFO PythonRDD: Removing RDD 70 from persistence list
+16/11/10 12:53:20 INFO BlockManager: Removing RDD 70
+16/11/10 12:53:20 INFO PythonRDD: Removing RDD 69 from persistence list
+16/11/10 12:53:20 INFO KafkaRDD: Removing RDD 68 from persistence list
+16/11/10 12:53:20 INFO BlockManager: Removing RDD 69
+16/11/10 12:53:20 INFO BlockManager: Removing RDD 68
+16/11/10 12:53:20 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:53:20 INFO InputInfoTracker: remove old batch metadata: 1478778780000 ms
+16/11/10 12:53:30 INFO JobScheduler: Added jobs for time 1478778810000 ms
+16/11/10 12:53:30 INFO JobScheduler: Starting job streaming job 1478778810000 ms.0 from job set of time 1478778810000 ms
+16/11/10 12:53:30 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:53:30 INFO DAGScheduler: Got job 19 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:53:30 INFO DAGScheduler: Final stage: ResultStage 19 (runJob at PythonRDD.scala:393)
+16/11/10 12:53:30 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:53:30 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:53:30 INFO DAGScheduler: Submitting ResultStage 19 (PythonRDD[79] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:53:30 INFO MemoryStore: Block broadcast_19 stored as values in memory (estimated size 6.6 KB, free 177.7 KB)
+16/11/10 12:53:30 INFO MemoryStore: Block broadcast_19_piece0 stored as bytes in memory (estimated size 3.5 KB, free 181.1 KB)
+16/11/10 12:53:30 INFO BlockManagerInfo: Added broadcast_19_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:30 INFO SparkContext: Created broadcast 19 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:53:30 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 19 (PythonRDD[79] at RDD at PythonRDD.scala:43)
+16/11/10 12:53:30 INFO TaskSchedulerImpl: Adding task set 19.0 with 1 tasks
+16/11/10 12:53:30 INFO TaskSetManager: Starting task 0.0 in stage 19.0 (TID 19, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:53:30 INFO BlockManagerInfo: Added broadcast_19_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:30 INFO TaskSetManager: Finished task 0.0 in stage 19.0 (TID 19) in 191 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:53:30 INFO TaskSchedulerImpl: Removed TaskSet 19.0, whose tasks have all completed, from pool 
+16/11/10 12:53:30 INFO DAGScheduler: ResultStage 19 (runJob at PythonRDD.scala:393) finished in 0.193 s
+16/11/10 12:53:30 INFO DAGScheduler: Job 19 finished: runJob at PythonRDD.scala:393, took 0.200423 s
+2016-11-10 12:53:30,281 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:53:30 INFO JobScheduler: Finished job streaming job 1478778810000 ms.0 from job set of time 1478778810000 ms
+16/11/10 12:53:30 INFO JobScheduler: Total delay: 0.283 s for time 1478778810000 ms (execution: 0.219 s)
+16/11/10 12:53:30 INFO PythonRDD: Removing RDD 74 from persistence list
+16/11/10 12:53:30 INFO BlockManager: Removing RDD 74
+16/11/10 12:53:30 INFO PythonRDD: Removing RDD 73 from persistence list
+16/11/10 12:53:30 INFO BlockManager: Removing RDD 73
+16/11/10 12:53:30 INFO KafkaRDD: Removing RDD 72 from persistence list
+16/11/10 12:53:30 INFO BlockManager: Removing RDD 72
+16/11/10 12:53:30 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:53:30 INFO InputInfoTracker: remove old batch metadata: 1478778790000 ms
+16/11/10 12:53:40 INFO JobScheduler: Added jobs for time 1478778820000 ms
+16/11/10 12:53:40 INFO JobScheduler: Starting job streaming job 1478778820000 ms.0 from job set of time 1478778820000 ms
+16/11/10 12:53:40 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:53:40 INFO DAGScheduler: Got job 20 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:53:40 INFO DAGScheduler: Final stage: ResultStage 20 (runJob at PythonRDD.scala:393)
+16/11/10 12:53:40 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:53:40 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:53:40 INFO DAGScheduler: Submitting ResultStage 20 (PythonRDD[83] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:53:40 INFO MemoryStore: Block broadcast_20 stored as values in memory (estimated size 6.6 KB, free 187.7 KB)
+16/11/10 12:53:40 INFO MemoryStore: Block broadcast_20_piece0 stored as bytes in memory (estimated size 3.5 KB, free 191.2 KB)
+16/11/10 12:53:40 INFO BlockManagerInfo: Added broadcast_20_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:40 INFO SparkContext: Created broadcast 20 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:53:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 20 (PythonRDD[83] at RDD at PythonRDD.scala:43)
+16/11/10 12:53:40 INFO TaskSchedulerImpl: Adding task set 20.0 with 1 tasks
+16/11/10 12:53:40 INFO TaskSetManager: Starting task 0.0 in stage 20.0 (TID 20, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:53:40 INFO BlockManagerInfo: Added broadcast_20_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:40 INFO TaskSetManager: Finished task 0.0 in stage 20.0 (TID 20) in 155 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:53:40 INFO TaskSchedulerImpl: Removed TaskSet 20.0, whose tasks have all completed, from pool 
+16/11/10 12:53:40 INFO DAGScheduler: ResultStage 20 (runJob at PythonRDD.scala:393) finished in 0.157 s
+16/11/10 12:53:40 INFO DAGScheduler: Job 20 finished: runJob at PythonRDD.scala:393, took 0.163040 s
+2016-11-10 12:53:40,203 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:53:40 INFO JobScheduler: Finished job streaming job 1478778820000 ms.0 from job set of time 1478778820000 ms
+16/11/10 12:53:40 INFO JobScheduler: Total delay: 0.204 s for time 1478778820000 ms (execution: 0.179 s)
+16/11/10 12:53:40 INFO PythonRDD: Removing RDD 78 from persistence list
+16/11/10 12:53:40 INFO BlockManager: Removing RDD 78
+16/11/10 12:53:40 INFO PythonRDD: Removing RDD 77 from persistence list
+16/11/10 12:53:40 INFO BlockManager: Removing RDD 77
+16/11/10 12:53:40 INFO KafkaRDD: Removing RDD 76 from persistence list
+16/11/10 12:53:40 INFO BlockManager: Removing RDD 76
+16/11/10 12:53:40 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:53:40 INFO InputInfoTracker: remove old batch metadata: 1478778800000 ms
+16/11/10 12:53:50 INFO JobScheduler: Added jobs for time 1478778830000 ms
+16/11/10 12:53:50 INFO JobScheduler: Starting job streaming job 1478778830000 ms.0 from job set of time 1478778830000 ms
+16/11/10 12:53:50 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:53:50 INFO DAGScheduler: Got job 21 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:53:50 INFO DAGScheduler: Final stage: ResultStage 21 (runJob at PythonRDD.scala:393)
+16/11/10 12:53:50 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:53:50 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:53:50 INFO DAGScheduler: Submitting ResultStage 21 (PythonRDD[87] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:53:50 INFO MemoryStore: Block broadcast_21 stored as values in memory (estimated size 6.6 KB, free 197.8 KB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_20_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO MemoryStore: Block broadcast_21_piece0 stored as bytes in memory (estimated size 3.5 KB, free 191.2 KB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Added broadcast_21_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO SparkContext: Created broadcast 21 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:53:50 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 21 (PythonRDD[87] at RDD at PythonRDD.scala:43)
+16/11/10 12:53:50 INFO TaskSchedulerImpl: Adding task set 21.0 with 1 tasks
+16/11/10 12:53:50 INFO TaskSetManager: Starting task 0.0 in stage 21.0 (TID 21, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_20_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 22
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_19_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_19_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Added broadcast_21_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 21
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_18_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_18_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 20
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_17_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_17_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 19
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_16_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_16_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 18
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_15_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_15_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 17
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_14_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_14_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 16
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_13_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_13_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 15
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_12_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_12_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 14
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_11_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_11_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 13
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_10_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_10_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 12
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_9_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_9_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 11
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_8_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_8_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 10
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_7_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_7_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 9
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_6_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_6_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 8
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_5_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_5_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 7
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_4_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_4_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 6
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_3_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_3_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO TaskSetManager: Finished task 0.0 in stage 21.0 (TID 21) in 236 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:53:50 INFO TaskSchedulerImpl: Removed TaskSet 21.0, whose tasks have all completed, from pool 
+16/11/10 12:53:50 INFO DAGScheduler: ResultStage 21 (runJob at PythonRDD.scala:393) finished in 0.237 s
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 5
+16/11/10 12:53:50 INFO DAGScheduler: Job 21 finished: runJob at PythonRDD.scala:393, took 0.293761 s
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_2_piece0 on 10.3.35.93:40452 in memory (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:53:50 INFO BlockManagerInfo: Removed broadcast_2_piece0 on hpe-smartwatch-03.hpintelco.org:42482 in memory (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:53:50 INFO ContextCleaner: Cleaned accumulator 4
+2016-11-10 12:53:50,348 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:53:50 INFO JobScheduler: Finished job streaming job 1478778830000 ms.0 from job set of time 1478778830000 ms
+16/11/10 12:53:50 INFO JobScheduler: Total delay: 0.349 s for time 1478778830000 ms (execution: 0.325 s)
+16/11/10 12:53:50 INFO PythonRDD: Removing RDD 82 from persistence list
+16/11/10 12:53:50 INFO BlockManager: Removing RDD 82
+16/11/10 12:53:50 INFO PythonRDD: Removing RDD 81 from persistence list
+16/11/10 12:53:50 INFO BlockManager: Removing RDD 81
+16/11/10 12:53:50 INFO KafkaRDD: Removing RDD 80 from persistence list
+16/11/10 12:53:50 INFO BlockManager: Removing RDD 80
+16/11/10 12:53:50 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:53:50 INFO InputInfoTracker: remove old batch metadata: 1478778810000 ms
+16/11/10 12:54:00 INFO JobScheduler: Added jobs for time 1478778840000 ms
+16/11/10 12:54:00 INFO JobScheduler: Starting job streaming job 1478778840000 ms.0 from job set of time 1478778840000 ms
+16/11/10 12:54:00 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:54:00 INFO DAGScheduler: Got job 22 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:54:00 INFO DAGScheduler: Final stage: ResultStage 22 (runJob at PythonRDD.scala:393)
+16/11/10 12:54:00 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:54:00 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:54:00 INFO DAGScheduler: Submitting ResultStage 22 (PythonRDD[91] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:54:00 INFO MemoryStore: Block broadcast_22 stored as values in memory (estimated size 6.6 KB, free 16.7 KB)
+16/11/10 12:54:00 INFO MemoryStore: Block broadcast_22_piece0 stored as bytes in memory (estimated size 3.5 KB, free 20.1 KB)
+16/11/10 12:54:00 INFO BlockManagerInfo: Added broadcast_22_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:54:00 INFO SparkContext: Created broadcast 22 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:54:00 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 22 (PythonRDD[91] at RDD at PythonRDD.scala:43)
+16/11/10 12:54:00 INFO TaskSchedulerImpl: Adding task set 22.0 with 1 tasks
+16/11/10 12:54:00 INFO TaskSetManager: Starting task 0.0 in stage 22.0 (TID 22, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:54:00 INFO BlockManagerInfo: Added broadcast_22_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:54:00 INFO TaskSetManager: Finished task 0.0 in stage 22.0 (TID 22) in 170 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:54:00 INFO TaskSchedulerImpl: Removed TaskSet 22.0, whose tasks have all completed, from pool 
+16/11/10 12:54:00 INFO DAGScheduler: ResultStage 22 (runJob at PythonRDD.scala:393) finished in 0.172 s
+16/11/10 12:54:00 INFO DAGScheduler: Job 22 finished: runJob at PythonRDD.scala:393, took 0.189413 s
+2016-11-10 12:54:00,253 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:54:00 INFO JobScheduler: Finished job streaming job 1478778840000 ms.0 from job set of time 1478778840000 ms
+16/11/10 12:54:00 INFO JobScheduler: Total delay: 0.254 s for time 1478778840000 ms (execution: 0.212 s)
+16/11/10 12:54:00 INFO PythonRDD: Removing RDD 86 from persistence list
+16/11/10 12:54:00 INFO BlockManager: Removing RDD 86
+16/11/10 12:54:00 INFO PythonRDD: Removing RDD 85 from persistence list
+16/11/10 12:54:00 INFO KafkaRDD: Removing RDD 84 from persistence list
+16/11/10 12:54:00 INFO BlockManager: Removing RDD 84
+16/11/10 12:54:00 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:54:00 INFO InputInfoTracker: remove old batch metadata: 1478778820000 ms
+16/11/10 12:54:00 INFO BlockManager: Removing RDD 85
+16/11/10 12:54:10 INFO JobScheduler: Added jobs for time 1478778850000 ms
+16/11/10 12:54:10 INFO JobScheduler: Starting job streaming job 1478778850000 ms.0 from job set of time 1478778850000 ms
+16/11/10 12:54:10 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:54:10 INFO DAGScheduler: Got job 23 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:54:10 INFO DAGScheduler: Final stage: ResultStage 23 (runJob at PythonRDD.scala:393)
+16/11/10 12:54:10 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:54:10 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:54:10 INFO DAGScheduler: Submitting ResultStage 23 (PythonRDD[95] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:54:10 INFO MemoryStore: Block broadcast_23 stored as values in memory (estimated size 6.6 KB, free 26.7 KB)
+16/11/10 12:54:10 INFO MemoryStore: Block broadcast_23_piece0 stored as bytes in memory (estimated size 3.5 KB, free 30.2 KB)
+16/11/10 12:54:10 INFO BlockManagerInfo: Added broadcast_23_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:54:10 INFO SparkContext: Created broadcast 23 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:54:10 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 23 (PythonRDD[95] at RDD at PythonRDD.scala:43)
+16/11/10 12:54:10 INFO TaskSchedulerImpl: Adding task set 23.0 with 1 tasks
+16/11/10 12:54:10 INFO TaskSetManager: Starting task 0.0 in stage 23.0 (TID 23, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:54:10 INFO BlockManagerInfo: Added broadcast_23_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:54:10 INFO TaskSetManager: Finished task 0.0 in stage 23.0 (TID 23) in 143 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:54:10 INFO TaskSchedulerImpl: Removed TaskSet 23.0, whose tasks have all completed, from pool 
+16/11/10 12:54:10 INFO DAGScheduler: ResultStage 23 (runJob at PythonRDD.scala:393) finished in 0.144 s
+16/11/10 12:54:10 INFO DAGScheduler: Job 23 finished: runJob at PythonRDD.scala:393, took 0.149871 s
+2016-11-10 12:54:10,190 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:54:10 INFO JobScheduler: Finished job streaming job 1478778850000 ms.0 from job set of time 1478778850000 ms
+16/11/10 12:54:10 INFO JobScheduler: Total delay: 0.190 s for time 1478778850000 ms (execution: 0.167 s)
+16/11/10 12:54:10 INFO PythonRDD: Removing RDD 90 from persistence list
+16/11/10 12:54:10 INFO BlockManager: Removing RDD 90
+16/11/10 12:54:10 INFO PythonRDD: Removing RDD 89 from persistence list
+16/11/10 12:54:10 INFO BlockManager: Removing RDD 89
+16/11/10 12:54:10 INFO KafkaRDD: Removing RDD 88 from persistence list
+16/11/10 12:54:10 INFO BlockManager: Removing RDD 88
+16/11/10 12:54:10 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:54:10 INFO InputInfoTracker: remove old batch metadata: 1478778830000 ms
+16/11/10 12:54:20 INFO JobScheduler: Added jobs for time 1478778860000 ms
+16/11/10 12:54:20 INFO JobScheduler: Starting job streaming job 1478778860000 ms.0 from job set of time 1478778860000 ms
+16/11/10 12:54:20 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:54:20 INFO DAGScheduler: Got job 24 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:54:20 INFO DAGScheduler: Final stage: ResultStage 24 (runJob at PythonRDD.scala:393)
+16/11/10 12:54:20 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:54:20 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:54:20 INFO DAGScheduler: Submitting ResultStage 24 (PythonRDD[99] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:54:20 INFO MemoryStore: Block broadcast_24 stored as values in memory (estimated size 6.6 KB, free 36.8 KB)
+16/11/10 12:54:20 INFO MemoryStore: Block broadcast_24_piece0 stored as bytes in memory (estimated size 3.5 KB, free 40.3 KB)
+16/11/10 12:54:20 INFO BlockManagerInfo: Added broadcast_24_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:54:20 INFO SparkContext: Created broadcast 24 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:54:20 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 24 (PythonRDD[99] at RDD at PythonRDD.scala:43)
+16/11/10 12:54:20 INFO TaskSchedulerImpl: Adding task set 24.0 with 1 tasks
+16/11/10 12:54:20 INFO TaskSetManager: Starting task 0.0 in stage 24.0 (TID 24, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:54:20 INFO BlockManagerInfo: Added broadcast_24_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:54:20 INFO TaskSetManager: Finished task 0.0 in stage 24.0 (TID 24) in 160 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:54:20 INFO TaskSchedulerImpl: Removed TaskSet 24.0, whose tasks have all completed, from pool 
+16/11/10 12:54:20 INFO DAGScheduler: ResultStage 24 (runJob at PythonRDD.scala:393) finished in 0.161 s
+16/11/10 12:54:20 INFO DAGScheduler: Job 24 finished: runJob at PythonRDD.scala:393, took 0.167480 s
+2016-11-10 12:54:20,214 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:54:20 INFO JobScheduler: Finished job streaming job 1478778860000 ms.0 from job set of time 1478778860000 ms
+16/11/10 12:54:20 INFO JobScheduler: Total delay: 0.215 s for time 1478778860000 ms (execution: 0.194 s)
+16/11/10 12:54:20 INFO PythonRDD: Removing RDD 94 from persistence list
+16/11/10 12:54:20 INFO BlockManager: Removing RDD 94
+16/11/10 12:54:20 INFO PythonRDD: Removing RDD 93 from persistence list
+16/11/10 12:54:20 INFO BlockManager: Removing RDD 93
+16/11/10 12:54:20 INFO KafkaRDD: Removing RDD 92 from persistence list
+16/11/10 12:54:20 INFO BlockManager: Removing RDD 92
+16/11/10 12:54:20 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:54:20 INFO InputInfoTracker: remove old batch metadata: 1478778840000 ms
+16/11/10 12:54:30 INFO JobScheduler: Added jobs for time 1478778870000 ms
+16/11/10 12:54:30 INFO JobScheduler: Starting job streaming job 1478778870000 ms.0 from job set of time 1478778870000 ms
+16/11/10 12:54:30 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:54:30 INFO DAGScheduler: Got job 25 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:54:30 INFO DAGScheduler: Final stage: ResultStage 25 (runJob at PythonRDD.scala:393)
+16/11/10 12:54:30 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:54:30 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:54:30 INFO DAGScheduler: Submitting ResultStage 25 (PythonRDD[103] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:54:30 INFO MemoryStore: Block broadcast_25 stored as values in memory (estimated size 6.6 KB, free 46.8 KB)
+16/11/10 12:54:30 INFO MemoryStore: Block broadcast_25_piece0 stored as bytes in memory (estimated size 3.5 KB, free 50.3 KB)
+16/11/10 12:54:30 INFO BlockManagerInfo: Added broadcast_25_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:54:30 INFO SparkContext: Created broadcast 25 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:54:30 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 25 (PythonRDD[103] at RDD at PythonRDD.scala:43)
+16/11/10 12:54:30 INFO TaskSchedulerImpl: Adding task set 25.0 with 1 tasks
+16/11/10 12:54:30 INFO TaskSetManager: Starting task 0.0 in stage 25.0 (TID 25, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:54:30 INFO BlockManagerInfo: Added broadcast_25_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:54:30 INFO TaskSetManager: Finished task 0.0 in stage 25.0 (TID 25) in 266 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:54:30 INFO TaskSchedulerImpl: Removed TaskSet 25.0, whose tasks have all completed, from pool 
+16/11/10 12:54:30 INFO DAGScheduler: ResultStage 25 (runJob at PythonRDD.scala:393) finished in 0.266 s
+16/11/10 12:54:30 INFO DAGScheduler: Job 25 finished: runJob at PythonRDD.scala:393, took 0.277224 s
+2016-11-10 12:54:30,352 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:54:30 INFO JobScheduler: Finished job streaming job 1478778870000 ms.0 from job set of time 1478778870000 ms
+16/11/10 12:54:30 INFO JobScheduler: Total delay: 0.353 s for time 1478778870000 ms (execution: 0.307 s)
+16/11/10 12:54:30 INFO PythonRDD: Removing RDD 98 from persistence list
+16/11/10 12:54:30 INFO BlockManager: Removing RDD 98
+16/11/10 12:54:30 INFO PythonRDD: Removing RDD 97 from persistence list
+16/11/10 12:54:30 INFO BlockManager: Removing RDD 97
+16/11/10 12:54:30 INFO KafkaRDD: Removing RDD 96 from persistence list
+16/11/10 12:54:30 INFO BlockManager: Removing RDD 96
+16/11/10 12:54:30 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:54:30 INFO InputInfoTracker: remove old batch metadata: 1478778850000 ms
+16/11/10 12:54:40 INFO JobScheduler: Added jobs for time 1478778880000 ms
+16/11/10 12:54:40 INFO JobScheduler: Starting job streaming job 1478778880000 ms.0 from job set of time 1478778880000 ms
+16/11/10 12:54:40 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:54:40 INFO DAGScheduler: Got job 26 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:54:40 INFO DAGScheduler: Final stage: ResultStage 26 (runJob at PythonRDD.scala:393)
+16/11/10 12:54:40 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:54:40 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:54:40 INFO DAGScheduler: Submitting ResultStage 26 (PythonRDD[107] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:54:40 INFO MemoryStore: Block broadcast_26 stored as values in memory (estimated size 6.6 KB, free 56.9 KB)
+16/11/10 12:54:40 INFO MemoryStore: Block broadcast_26_piece0 stored as bytes in memory (estimated size 3.5 KB, free 60.4 KB)
+16/11/10 12:54:40 INFO BlockManagerInfo: Added broadcast_26_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:54:40 INFO SparkContext: Created broadcast 26 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:54:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 26 (PythonRDD[107] at RDD at PythonRDD.scala:43)
+16/11/10 12:54:40 INFO TaskSchedulerImpl: Adding task set 26.0 with 1 tasks
+16/11/10 12:54:40 INFO TaskSetManager: Starting task 0.0 in stage 26.0 (TID 26, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:54:40 INFO BlockManagerInfo: Added broadcast_26_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:54:40 INFO TaskSetManager: Finished task 0.0 in stage 26.0 (TID 26) in 199 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:54:40 INFO TaskSchedulerImpl: Removed TaskSet 26.0, whose tasks have all completed, from pool 
+16/11/10 12:54:40 INFO DAGScheduler: ResultStage 26 (runJob at PythonRDD.scala:393) finished in 0.200 s
+16/11/10 12:54:40 INFO DAGScheduler: Job 26 finished: runJob at PythonRDD.scala:393, took 0.207165 s
+2016-11-10 12:54:40,262 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:54:40 INFO JobScheduler: Finished job streaming job 1478778880000 ms.0 from job set of time 1478778880000 ms
+16/11/10 12:54:40 INFO JobScheduler: Total delay: 0.264 s for time 1478778880000 ms (execution: 0.239 s)
+16/11/10 12:54:40 INFO PythonRDD: Removing RDD 102 from persistence list
+16/11/10 12:54:40 INFO BlockManager: Removing RDD 102
+16/11/10 12:54:40 INFO PythonRDD: Removing RDD 101 from persistence list
+16/11/10 12:54:40 INFO BlockManager: Removing RDD 101
+16/11/10 12:54:40 INFO KafkaRDD: Removing RDD 100 from persistence list
+16/11/10 12:54:40 INFO BlockManager: Removing RDD 100
+16/11/10 12:54:40 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:54:40 INFO InputInfoTracker: remove old batch metadata: 1478778860000 ms
+16/11/10 12:54:50 INFO JobScheduler: Added jobs for time 1478778890000 ms
+16/11/10 12:54:50 INFO JobScheduler: Starting job streaming job 1478778890000 ms.0 from job set of time 1478778890000 ms
+16/11/10 12:54:50 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:54:50 INFO DAGScheduler: Got job 27 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:54:50 INFO DAGScheduler: Final stage: ResultStage 27 (runJob at PythonRDD.scala:393)
+16/11/10 12:54:50 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:54:50 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:54:50 INFO DAGScheduler: Submitting ResultStage 27 (PythonRDD[111] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:54:50 INFO MemoryStore: Block broadcast_27 stored as values in memory (estimated size 6.6 KB, free 67.0 KB)
+16/11/10 12:54:50 INFO MemoryStore: Block broadcast_27_piece0 stored as bytes in memory (estimated size 3.5 KB, free 70.4 KB)
+16/11/10 12:54:50 INFO BlockManagerInfo: Added broadcast_27_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:54:50 INFO SparkContext: Created broadcast 27 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:54:50 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 27 (PythonRDD[111] at RDD at PythonRDD.scala:43)
+16/11/10 12:54:50 INFO TaskSchedulerImpl: Adding task set 27.0 with 1 tasks
+16/11/10 12:54:50 INFO TaskSetManager: Starting task 0.0 in stage 27.0 (TID 27, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:54:50 INFO BlockManagerInfo: Added broadcast_27_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:54:50 INFO TaskSetManager: Finished task 0.0 in stage 27.0 (TID 27) in 152 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:54:50 INFO TaskSchedulerImpl: Removed TaskSet 27.0, whose tasks have all completed, from pool 
+16/11/10 12:54:50 INFO DAGScheduler: ResultStage 27 (runJob at PythonRDD.scala:393) finished in 0.152 s
+16/11/10 12:54:50 INFO DAGScheduler: Job 27 finished: runJob at PythonRDD.scala:393, took 0.161632 s
+2016-11-10 12:54:50,231 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:54:50 INFO JobScheduler: Finished job streaming job 1478778890000 ms.0 from job set of time 1478778890000 ms
+16/11/10 12:54:50 INFO JobScheduler: Total delay: 0.232 s for time 1478778890000 ms (execution: 0.209 s)
+16/11/10 12:54:50 INFO PythonRDD: Removing RDD 106 from persistence list
+16/11/10 12:54:50 INFO BlockManager: Removing RDD 106
+16/11/10 12:54:50 INFO PythonRDD: Removing RDD 105 from persistence list
+16/11/10 12:54:50 INFO KafkaRDD: Removing RDD 104 from persistence list
+16/11/10 12:54:50 INFO BlockManager: Removing RDD 105
+16/11/10 12:54:50 INFO BlockManager: Removing RDD 104
+16/11/10 12:54:50 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:54:50 INFO InputInfoTracker: remove old batch metadata: 1478778870000 ms
+16/11/10 12:55:00 INFO JobScheduler: Added jobs for time 1478778900000 ms
+16/11/10 12:55:00 INFO JobScheduler: Starting job streaming job 1478778900000 ms.0 from job set of time 1478778900000 ms
+16/11/10 12:55:00 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:55:00 INFO DAGScheduler: Got job 28 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:55:00 INFO DAGScheduler: Final stage: ResultStage 28 (runJob at PythonRDD.scala:393)
+16/11/10 12:55:00 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:55:00 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:55:00 INFO DAGScheduler: Submitting ResultStage 28 (PythonRDD[115] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:55:00 INFO MemoryStore: Block broadcast_28 stored as values in memory (estimated size 6.6 KB, free 77.0 KB)
+16/11/10 12:55:00 INFO MemoryStore: Block broadcast_28_piece0 stored as bytes in memory (estimated size 3.5 KB, free 80.5 KB)
+16/11/10 12:55:00 INFO BlockManagerInfo: Added broadcast_28_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:55:00 INFO SparkContext: Created broadcast 28 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:55:00 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 28 (PythonRDD[115] at RDD at PythonRDD.scala:43)
+16/11/10 12:55:00 INFO TaskSchedulerImpl: Adding task set 28.0 with 1 tasks
+16/11/10 12:55:00 INFO TaskSetManager: Starting task 0.0 in stage 28.0 (TID 28, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:55:00 INFO BlockManagerInfo: Added broadcast_28_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:55:00 INFO TaskSetManager: Finished task 0.0 in stage 28.0 (TID 28) in 156 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:55:00 INFO TaskSchedulerImpl: Removed TaskSet 28.0, whose tasks have all completed, from pool 
+16/11/10 12:55:00 INFO DAGScheduler: ResultStage 28 (runJob at PythonRDD.scala:393) finished in 0.157 s
+16/11/10 12:55:00 INFO DAGScheduler: Job 28 finished: runJob at PythonRDD.scala:393, took 0.166704 s
+2016-11-10 12:55:00,213 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:55:00 INFO JobScheduler: Finished job streaming job 1478778900000 ms.0 from job set of time 1478778900000 ms
+16/11/10 12:55:00 INFO JobScheduler: Total delay: 0.215 s for time 1478778900000 ms (execution: 0.189 s)
+16/11/10 12:55:00 INFO PythonRDD: Removing RDD 110 from persistence list
+16/11/10 12:55:00 INFO BlockManager: Removing RDD 110
+16/11/10 12:55:00 INFO PythonRDD: Removing RDD 109 from persistence list
+16/11/10 12:55:00 INFO BlockManager: Removing RDD 109
+16/11/10 12:55:00 INFO KafkaRDD: Removing RDD 108 from persistence list
+16/11/10 12:55:00 INFO BlockManager: Removing RDD 108
+16/11/10 12:55:00 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:55:00 INFO InputInfoTracker: remove old batch metadata: 1478778880000 ms
+16/11/10 12:55:10 INFO JobScheduler: Added jobs for time 1478778910000 ms
+16/11/10 12:55:10 INFO JobScheduler: Starting job streaming job 1478778910000 ms.0 from job set of time 1478778910000 ms
+16/11/10 12:55:10 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:55:10 INFO DAGScheduler: Got job 29 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:55:10 INFO DAGScheduler: Final stage: ResultStage 29 (runJob at PythonRDD.scala:393)
+16/11/10 12:55:10 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:55:10 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:55:10 INFO DAGScheduler: Submitting ResultStage 29 (PythonRDD[119] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:55:10 INFO MemoryStore: Block broadcast_29 stored as values in memory (estimated size 6.6 KB, free 87.1 KB)
+16/11/10 12:55:10 INFO MemoryStore: Block broadcast_29_piece0 stored as bytes in memory (estimated size 3.5 KB, free 90.6 KB)
+16/11/10 12:55:10 INFO BlockManagerInfo: Added broadcast_29_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:55:10 INFO SparkContext: Created broadcast 29 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:55:10 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 29 (PythonRDD[119] at RDD at PythonRDD.scala:43)
+16/11/10 12:55:10 INFO TaskSchedulerImpl: Adding task set 29.0 with 1 tasks
+16/11/10 12:55:10 INFO TaskSetManager: Starting task 0.0 in stage 29.0 (TID 29, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:55:10 INFO BlockManagerInfo: Added broadcast_29_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:55:10 INFO TaskSetManager: Finished task 0.0 in stage 29.0 (TID 29) in 160 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:55:10 INFO TaskSchedulerImpl: Removed TaskSet 29.0, whose tasks have all completed, from pool 
+16/11/10 12:55:10 INFO DAGScheduler: ResultStage 29 (runJob at PythonRDD.scala:393) finished in 0.159 s
+16/11/10 12:55:10 INFO DAGScheduler: Job 29 finished: runJob at PythonRDD.scala:393, took 0.166375 s
+2016-11-10 12:55:10,206 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:55:10 INFO JobScheduler: Finished job streaming job 1478778910000 ms.0 from job set of time 1478778910000 ms
+16/11/10 12:55:10 INFO JobScheduler: Total delay: 0.207 s for time 1478778910000 ms (execution: 0.183 s)
+16/11/10 12:55:10 INFO PythonRDD: Removing RDD 114 from persistence list
+16/11/10 12:55:10 INFO PythonRDD: Removing RDD 113 from persistence list
+16/11/10 12:55:10 INFO BlockManager: Removing RDD 114
+16/11/10 12:55:10 INFO BlockManager: Removing RDD 113
+16/11/10 12:55:10 INFO KafkaRDD: Removing RDD 112 from persistence list
+16/11/10 12:55:10 INFO BlockManager: Removing RDD 112
+16/11/10 12:55:10 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:55:10 INFO InputInfoTracker: remove old batch metadata: 1478778890000 ms
+16/11/10 12:55:20 INFO JobScheduler: Added jobs for time 1478778920000 ms
+16/11/10 12:55:20 INFO JobScheduler: Starting job streaming job 1478778920000 ms.0 from job set of time 1478778920000 ms
+16/11/10 12:55:20 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:55:20 INFO DAGScheduler: Got job 30 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:55:20 INFO DAGScheduler: Final stage: ResultStage 30 (runJob at PythonRDD.scala:393)
+16/11/10 12:55:20 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:55:20 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:55:20 INFO DAGScheduler: Submitting ResultStage 30 (PythonRDD[123] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:55:20 INFO MemoryStore: Block broadcast_30 stored as values in memory (estimated size 6.6 KB, free 97.2 KB)
+16/11/10 12:55:20 INFO MemoryStore: Block broadcast_30_piece0 stored as bytes in memory (estimated size 3.5 KB, free 100.6 KB)
+16/11/10 12:55:20 INFO BlockManagerInfo: Added broadcast_30_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:55:20 INFO SparkContext: Created broadcast 30 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:55:20 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 30 (PythonRDD[123] at RDD at PythonRDD.scala:43)
+16/11/10 12:55:20 INFO TaskSchedulerImpl: Adding task set 30.0 with 1 tasks
+16/11/10 12:55:20 INFO TaskSetManager: Starting task 0.0 in stage 30.0 (TID 30, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:55:20 INFO BlockManagerInfo: Added broadcast_30_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:55:20 INFO TaskSetManager: Finished task 0.0 in stage 30.0 (TID 30) in 148 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:55:20 INFO TaskSchedulerImpl: Removed TaskSet 30.0, whose tasks have all completed, from pool 
+16/11/10 12:55:20 INFO DAGScheduler: ResultStage 30 (runJob at PythonRDD.scala:393) finished in 0.149 s
+16/11/10 12:55:20 INFO DAGScheduler: Job 30 finished: runJob at PythonRDD.scala:393, took 0.154676 s
+2016-11-10 12:55:20,245 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:55:20 INFO JobScheduler: Finished job streaming job 1478778920000 ms.0 from job set of time 1478778920000 ms
+16/11/10 12:55:20 INFO JobScheduler: Total delay: 0.246 s for time 1478778920000 ms (execution: 0.226 s)
+16/11/10 12:55:20 INFO PythonRDD: Removing RDD 118 from persistence list
+16/11/10 12:55:20 INFO BlockManager: Removing RDD 118
+16/11/10 12:55:20 INFO PythonRDD: Removing RDD 117 from persistence list
+16/11/10 12:55:20 INFO KafkaRDD: Removing RDD 116 from persistence list
+16/11/10 12:55:20 INFO BlockManager: Removing RDD 117
+16/11/10 12:55:20 INFO BlockManager: Removing RDD 116
+16/11/10 12:55:20 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:55:20 INFO InputInfoTracker: remove old batch metadata: 1478778900000 ms
+16/11/10 12:55:30 INFO JobScheduler: Added jobs for time 1478778930000 ms
+16/11/10 12:55:30 INFO JobScheduler: Starting job streaming job 1478778930000 ms.0 from job set of time 1478778930000 ms
+16/11/10 12:55:30 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:55:30 INFO DAGScheduler: Got job 31 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:55:30 INFO DAGScheduler: Final stage: ResultStage 31 (runJob at PythonRDD.scala:393)
+16/11/10 12:55:30 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:55:30 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:55:30 INFO DAGScheduler: Submitting ResultStage 31 (PythonRDD[127] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:55:30 INFO MemoryStore: Block broadcast_31 stored as values in memory (estimated size 6.6 KB, free 107.2 KB)
+16/11/10 12:55:30 INFO MemoryStore: Block broadcast_31_piece0 stored as bytes in memory (estimated size 3.5 KB, free 110.7 KB)
+16/11/10 12:55:30 INFO BlockManagerInfo: Added broadcast_31_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:55:30 INFO SparkContext: Created broadcast 31 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:55:30 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 31 (PythonRDD[127] at RDD at PythonRDD.scala:43)
+16/11/10 12:55:30 INFO TaskSchedulerImpl: Adding task set 31.0 with 1 tasks
+16/11/10 12:55:30 INFO TaskSetManager: Starting task 0.0 in stage 31.0 (TID 31, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:55:30 INFO BlockManagerInfo: Added broadcast_31_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:55:30 INFO TaskSetManager: Finished task 0.0 in stage 31.0 (TID 31) in 161 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:55:30 INFO TaskSchedulerImpl: Removed TaskSet 31.0, whose tasks have all completed, from pool 
+16/11/10 12:55:30 INFO DAGScheduler: ResultStage 31 (runJob at PythonRDD.scala:393) finished in 0.162 s
+16/11/10 12:55:30 INFO DAGScheduler: Job 31 finished: runJob at PythonRDD.scala:393, took 0.182164 s
+2016-11-10 12:55:30,237 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:55:30 INFO JobScheduler: Finished job streaming job 1478778930000 ms.0 from job set of time 1478778930000 ms
+16/11/10 12:55:30 INFO JobScheduler: Total delay: 0.238 s for time 1478778930000 ms (execution: 0.211 s)
+16/11/10 12:55:30 INFO PythonRDD: Removing RDD 122 from persistence list
+16/11/10 12:55:30 INFO PythonRDD: Removing RDD 121 from persistence list
+16/11/10 12:55:30 INFO BlockManager: Removing RDD 122
+16/11/10 12:55:30 INFO KafkaRDD: Removing RDD 120 from persistence list
+16/11/10 12:55:30 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:55:30 INFO InputInfoTracker: remove old batch metadata: 1478778910000 ms
+16/11/10 12:55:30 INFO BlockManager: Removing RDD 120
+16/11/10 12:55:30 INFO BlockManager: Removing RDD 121
+16/11/10 12:55:40 INFO JobScheduler: Added jobs for time 1478778940000 ms
+16/11/10 12:55:40 INFO JobScheduler: Starting job streaming job 1478778940000 ms.0 from job set of time 1478778940000 ms
+16/11/10 12:55:40 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:55:40 INFO DAGScheduler: Got job 32 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:55:40 INFO DAGScheduler: Final stage: ResultStage 32 (runJob at PythonRDD.scala:393)
+16/11/10 12:55:40 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:55:40 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:55:40 INFO DAGScheduler: Submitting ResultStage 32 (PythonRDD[131] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:55:40 INFO MemoryStore: Block broadcast_32 stored as values in memory (estimated size 6.6 KB, free 117.3 KB)
+16/11/10 12:55:40 INFO MemoryStore: Block broadcast_32_piece0 stored as bytes in memory (estimated size 3.5 KB, free 120.7 KB)
+16/11/10 12:55:40 INFO BlockManagerInfo: Added broadcast_32_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:55:40 INFO SparkContext: Created broadcast 32 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:55:40 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 32 (PythonRDD[131] at RDD at PythonRDD.scala:43)
+16/11/10 12:55:40 INFO TaskSchedulerImpl: Adding task set 32.0 with 1 tasks
+16/11/10 12:55:40 INFO TaskSetManager: Starting task 0.0 in stage 32.0 (TID 32, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:55:40 INFO BlockManagerInfo: Added broadcast_32_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:55:40 INFO TaskSetManager: Finished task 0.0 in stage 32.0 (TID 32) in 161 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:55:40 INFO TaskSchedulerImpl: Removed TaskSet 32.0, whose tasks have all completed, from pool 
+16/11/10 12:55:40 INFO DAGScheduler: ResultStage 32 (runJob at PythonRDD.scala:393) finished in 0.163 s
+16/11/10 12:55:40 INFO DAGScheduler: Job 32 finished: runJob at PythonRDD.scala:393, took 0.168326 s
+2016-11-10 12:55:40,206 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:55:40 INFO JobScheduler: Finished job streaming job 1478778940000 ms.0 from job set of time 1478778940000 ms
+16/11/10 12:55:40 INFO JobScheduler: Total delay: 0.207 s for time 1478778940000 ms (execution: 0.183 s)
+16/11/10 12:55:40 INFO PythonRDD: Removing RDD 126 from persistence list
+16/11/10 12:55:40 INFO BlockManager: Removing RDD 126
+16/11/10 12:55:40 INFO PythonRDD: Removing RDD 125 from persistence list
+16/11/10 12:55:40 INFO BlockManager: Removing RDD 125
+16/11/10 12:55:40 INFO KafkaRDD: Removing RDD 124 from persistence list
+16/11/10 12:55:40 INFO BlockManager: Removing RDD 124
+16/11/10 12:55:40 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:55:40 INFO InputInfoTracker: remove old batch metadata: 1478778920000 ms
+16/11/10 12:55:50 INFO JobScheduler: Added jobs for time 1478778950000 ms
+16/11/10 12:55:50 INFO JobScheduler: Starting job streaming job 1478778950000 ms.0 from job set of time 1478778950000 ms
+16/11/10 12:55:50 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:55:50 INFO DAGScheduler: Got job 33 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:55:50 INFO DAGScheduler: Final stage: ResultStage 33 (runJob at PythonRDD.scala:393)
+16/11/10 12:55:50 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:55:50 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:55:50 INFO DAGScheduler: Submitting ResultStage 33 (PythonRDD[135] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:55:50 INFO MemoryStore: Block broadcast_33 stored as values in memory (estimated size 6.6 KB, free 127.3 KB)
+16/11/10 12:55:50 INFO MemoryStore: Block broadcast_33_piece0 stored as bytes in memory (estimated size 3.5 KB, free 130.8 KB)
+16/11/10 12:55:50 INFO BlockManagerInfo: Added broadcast_33_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:55:50 INFO SparkContext: Created broadcast 33 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:55:50 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 33 (PythonRDD[135] at RDD at PythonRDD.scala:43)
+16/11/10 12:55:50 INFO TaskSchedulerImpl: Adding task set 33.0 with 1 tasks
+16/11/10 12:55:50 INFO TaskSetManager: Starting task 0.0 in stage 33.0 (TID 33, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:55:50 INFO BlockManagerInfo: Added broadcast_33_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:55:50 INFO TaskSetManager: Finished task 0.0 in stage 33.0 (TID 33) in 151 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:55:50 INFO TaskSchedulerImpl: Removed TaskSet 33.0, whose tasks have all completed, from pool 
+16/11/10 12:55:50 INFO DAGScheduler: ResultStage 33 (runJob at PythonRDD.scala:393) finished in 0.152 s
+16/11/10 12:55:50 INFO DAGScheduler: Job 33 finished: runJob at PythonRDD.scala:393, took 0.158066 s
+2016-11-10 12:55:50,219 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:55:50 INFO JobScheduler: Finished job streaming job 1478778950000 ms.0 from job set of time 1478778950000 ms
+16/11/10 12:55:50 INFO JobScheduler: Total delay: 0.220 s for time 1478778950000 ms (execution: 0.198 s)
+16/11/10 12:55:50 INFO PythonRDD: Removing RDD 130 from persistence list
+16/11/10 12:55:50 INFO BlockManager: Removing RDD 130
+16/11/10 12:55:50 INFO PythonRDD: Removing RDD 129 from persistence list
+16/11/10 12:55:50 INFO BlockManager: Removing RDD 129
+16/11/10 12:55:50 INFO KafkaRDD: Removing RDD 128 from persistence list
+16/11/10 12:55:50 INFO BlockManager: Removing RDD 128
+16/11/10 12:55:50 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:55:50 INFO InputInfoTracker: remove old batch metadata: 1478778930000 ms
+16/11/10 12:56:00 INFO JobScheduler: Added jobs for time 1478778960000 ms
+16/11/10 12:56:00 INFO JobScheduler: Starting job streaming job 1478778960000 ms.0 from job set of time 1478778960000 ms
+16/11/10 12:56:00 INFO SparkContext: Starting job: runJob at PythonRDD.scala:393
+16/11/10 12:56:00 INFO DAGScheduler: Got job 34 (runJob at PythonRDD.scala:393) with 1 output partitions
+16/11/10 12:56:00 INFO DAGScheduler: Final stage: ResultStage 34 (runJob at PythonRDD.scala:393)
+16/11/10 12:56:00 INFO DAGScheduler: Parents of final stage: List()
+16/11/10 12:56:00 INFO DAGScheduler: Missing parents: List()
+16/11/10 12:56:00 INFO DAGScheduler: Submitting ResultStage 34 (PythonRDD[139] at RDD at PythonRDD.scala:43), which has no missing parents
+16/11/10 12:56:00 INFO MemoryStore: Block broadcast_34 stored as values in memory (estimated size 6.6 KB, free 137.4 KB)
+16/11/10 12:56:00 INFO MemoryStore: Block broadcast_34_piece0 stored as bytes in memory (estimated size 3.5 KB, free 140.9 KB)
+16/11/10 12:56:00 INFO BlockManagerInfo: Added broadcast_34_piece0 in memory on 10.3.35.93:40452 (size: 3.5 KB, free: 143.2 MB)
+16/11/10 12:56:00 INFO SparkContext: Created broadcast 34 from broadcast at DAGScheduler.scala:1006
+16/11/10 12:56:00 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 34 (PythonRDD[139] at RDD at PythonRDD.scala:43)
+16/11/10 12:56:00 INFO TaskSchedulerImpl: Adding task set 34.0 with 1 tasks
+16/11/10 12:56:00 INFO TaskSetManager: Starting task 0.0 in stage 34.0 (TID 34, hpe-smartwatch-03.hpintelco.org, partition 0,NODE_LOCAL, 2197 bytes)
+16/11/10 12:56:00 INFO BlockManagerInfo: Added broadcast_34_piece0 in memory on hpe-smartwatch-03.hpintelco.org:42482 (size: 3.5 KB, free: 1247.2 MB)
+16/11/10 12:56:00 INFO TaskSetManager: Finished task 0.0 in stage 34.0 (TID 34) in 142 ms on hpe-smartwatch-03.hpintelco.org (1/1)
+16/11/10 12:56:00 INFO TaskSchedulerImpl: Removed TaskSet 34.0, whose tasks have all completed, from pool 
+16/11/10 12:56:00 INFO DAGScheduler: ResultStage 34 (runJob at PythonRDD.scala:393) finished in 0.139 s
+16/11/10 12:56:00 INFO DAGScheduler: Job 34 finished: runJob at PythonRDD.scala:393, took 0.152828 s
+2016-11-10 12:56:00,186 - rta_processor_simple_1_1.py - DEBUG -     NO data coming from Apache Kafka with 1 0 . 3 . 3 5 . 9 3 : 9 0 9 2:iot_msband2_barometer ...
+16/11/10 12:56:00 INFO JobScheduler: Finished job streaming job 1478778960000 ms.0 from job set of time 1478778960000 ms
+16/11/10 12:56:00 INFO JobScheduler: Total delay: 0.187 s for time 1478778960000 ms (execution: 0.167 s)
+16/11/10 12:56:00 INFO PythonRDD: Removing RDD 134 from persistence list
+16/11/10 12:56:00 INFO BlockManager: Removing RDD 134
+16/11/10 12:56:00 INFO PythonRDD: Removing RDD 133 from persistence list
+16/11/10 12:56:00 INFO BlockManager: Removing RDD 133
+16/11/10 12:56:00 INFO KafkaRDD: Removing RDD 132 from persistence list
+16/11/10 12:56:00 INFO BlockManager: Removing RDD 132
+16/11/10 12:56:00 INFO ReceivedBlockTracker: Deleting batches ArrayBuffer()
+16/11/10 12:56:00 INFO InputInfoTracker: remove old batch metadata: 1478778940000 ms
+==> Check if this process is running or not ...
+==> Start rta_wrapper ...
+==> Generate process ID file rta_processor_simple_1_1_barometer_sklearn.pid in path /opt/rta_hc/rta-hc-framework-master/run ...
+==> Start running the process ...
+Traceback (most recent call last):
+  File "/opt/rta_hc/rta-hc-framework-master/src/rta_wrapper.py", line 185, in <module>
+    main()
+  File "/opt/rta_hc/rta-hc-framework-master/src/rta_wrapper.py", line 179, in main
+    a, b = main_proc.communicate()
+  File "/opt/rta_hc/anaconda2/lib/python2.7/subprocess.py", line 797, in communicate
+    self.wait()
+  File "/opt/rta_hc/anaconda2/lib/python2.7/subprocess.py", line 1392, in wait
+    pid, sts = _eintr_retry_call(os.waitpid, self.pid, 0)
+  File "/opt/rta_hc/anaconda2/lib/python2.7/subprocess.py", line 476, in _eintr_retry_call
+    return func(*args)
+KeyboardInterrupt
+2016-11-10 12:56:09,799 - rta_processor_simple_1_1.py - DEBUG -     Skip
+        Total elapsed time of har_randomForest_barometer : 0 Hours 5 Minutes 55 Seconds.
+
+16/11/10 12:56:09 INFO StreamingContext: Invoking stop(stopGracefully=false) from shutdown hook
+16/11/10 12:56:09 INFO JobGenerator: Stopping JobGenerator immediately
+16/11/10 12:56:09 INFO RecurringTimer: Stopped timer for JobGenerator after time 1478778960000
+16/11/10 12:56:09 INFO JobGenerator: Stopped JobGenerator
+16/11/10 12:56:09 INFO JobScheduler: Stopped JobScheduler
+16/11/10 12:56:09 INFO StreamingContext: StreamingContext stopped successfully
+16/11/10 12:56:09 INFO SparkContext: Invoking stop() from shutdown hook
+16/11/10 12:56:09 INFO SparkUI: Stopped Spark web UI at http://10.3.35.93:4041
+16/11/10 12:56:09 INFO SparkDeploySchedulerBackend: Shutting down all executors
+16/11/10 12:56:09 INFO SparkDeploySchedulerBackend: Asking each executor to shut down
+16/11/10 12:56:09 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+16/11/10 12:56:10 INFO MemoryStore: MemoryStore cleared
+16/11/10 12:56:10 INFO BlockManager: BlockManager stopped
+16/11/10 12:56:10 INFO BlockManagerMaster: BlockManagerMaster stopped
+16/11/10 12:56:10 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+16/11/10 12:56:10 INFO RemoteActorRefProvider$RemotingTerminator: Shutting down remote daemon.
+16/11/10 12:56:10 INFO RemoteActorRefProvider$RemotingTerminator: Remote daemon shut down; proceeding with flushing remote transports.
+16/11/10 12:56:10 INFO SparkContext: Successfully stopped SparkContext
+16/11/10 12:56:10 INFO ShutdownHookManager: Shutdown hook called
+16/11/10 12:56:10 INFO ShutdownHookManager: Deleting directory /tmp/spark-1060e091-cc89-465d-a8da-5cf10937fcbf
+16/11/10 12:56:10 INFO ShutdownHookManager: Deleting directory /tmp/spark-1060e091-cc89-465d-a8da-5cf10937fcbf/httpd-da68e129-e2b1-42dc-8011-8ad93da29605
+16/11/10 12:56:10 INFO ShutdownHookManager: Deleting directory /tmp/spark-1060e091-cc89-465d-a8da-5cf10937fcbf/pyspark-6e55caab-8b8e-435f-9014-b25501e8ca89

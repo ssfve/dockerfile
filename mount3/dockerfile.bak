@@ -1,0 +1,182 @@
+# Dockerfile for rta_hc_conf
+
+# Import the rta_hc_install image created by the first dockerfile
+FROM rta_hc_inst:latest
+
+# define arguments
+ARG cloud_server
+ARG spark_driver_mem
+ARG spark_executor_mem
+
+# 0.1 + Python (anaconda2)
+# Update ENV for python
+ENV PYTHON_HOME=/opt/rta_hc/anaconda2
+ENV PATH=$PYTHON_HOME/bin:$PATH
+
+# 0.2 + Java
+# Update ENV for java 
+ENV JAVA_HOME=/opt/rta_hc/jdk1.8.0_72
+ENV PATH=$PATH:$JAVA_HOME/bin
+
+# configure java alternatives
+RUN alternatives --install /usr/bin/java java $JAVA_HOME/bin/java 2
+RUN update-alternatives --install /usr/bin/javac javac $JAVA_HOME/bin/javac 2
+RUN alternatives --install /usr/bin/jar jar $JAVA_HOME/bin/jar 2
+RUN alternatives --set java $JAVA_HOME/bin/java
+RUN alternatives --set javac $JAVA_HOME/bin/javac
+RUN alternatives --set jar $JAVA_HOME/bin/jar
+
+# 0.3	+ tomcat
+# update ENV for tomcat
+ENV TOMCAT_HOME=/opt/rta_hc/apache-tomcat-7.0.72
+
+# config tomcat port mapping
+RUN sed -i.bak 's?Connector port="8080"?Connector port="9797"?' $TOMCAT_HOME/conf/server.xml
+
+# Update simpleiohttp2kafka web.xml
+RUN unzip -oq $TOMCAT_HOME/webapps/simpleiothttp2kafka.war -d $TOMCAT_HOME/webapps/simpleiothttp2kafka
+RUN sed -i.bak 's?[a-z0-9]*.[a-z0-9]*.[a-z0-9]*.[a-z0-9]*:9092?'$cloud_server':9092?' \
+$TOMCAT_HOME/webapps/simpleiothttp2kafka/WEB-INF/web.xml
+#RUN jar -cvf webapps/simpleiothttp2kafka.war webapps/simpleiothttp2kafka
+
+# 0.4	+ spark
+# Update ENV for spark
+ENV SPARK_HOME=/opt/rta_hc/spark-1.6.1-bin-hadoop2.6
+ENV PATH=$PATH:$SPARK_HOME/bin
+
+# Create and Update conf/spark-env.sh
+RUN cp $SPARK_HOME/conf/spark-env.sh.template \
+$SPARK_HOME/conf/spark-env.sh
+
+RUN sed -i.bak '$a\SPARK_HOME='$SPARK_HOME'' 				$SPARK_HOME/conf/spark-env.sh
+RUN sed -i.bak '$a\SPARK_MASTER_WEBUI_PORT=1111' 			$SPARK_HOME/conf/spark-env.sh
+RUN sed -i.bak '$a\SPARK_MASTER_IP='$cloud_server''			$SPARK_HOME/conf/spark-env.sh
+RUN sed -i.bak '$a\SPARK_LOCAL_IP='$cloud_server'' 			$SPARK_HOME/conf/spark-env.sh
+RUN sed -i.bak '$a\SPARK_WORKER_MEMORY=10g' 				$SPARK_HOME/conf/spark-env.sh
+RUN sed -i.bak '$a\HADOOP_CONF_DIR=/opt/rta_hc/hadoop-2.7.3/etc/hadoop' $SPARK_HOME/conf/spark-env.sh
+RUN sed -i.bak '$a\PYSPARK_PYTHON='$PYTHON_HOME'/bin/python' 		$SPARK_HOME/conf/spark-env.sh
+RUN sed -i.bak '$a\PYSPARK_DRIVER_PYTHON='$PYTHON_HOME'/bin/python' 	$SPARK_HOME/conf/spark-env.sh
+
+# Create and Update conf/spark-defaults.sh
+RUN cp $SPARK_HOME/conf/spark-defaults.conf.template \
+$SPARK_HOME/conf/spark-defaults.conf
+
+RUN sed -i.bak '$a\spark.master              spark://'$cloud_server':7077'	$SPARK_HOME/conf/spark-defaults.conf 
+RUN sed -i.bak '$a\spark.driver.memory       '$spark_driver_mem'' 		$SPARK_HOME/conf/spark-defaults.conf
+RUN sed -i.bak '$a\spark.executor.memory     '$spark_executor_mem'' 		$SPARK_HOME/conf/spark-defaults.conf
+
+# Create and Update conf/slaves
+RUN cp $SPARK_HOME/conf/slaves.template \
+$SPARK_HOME/conf/slaves
+
+# 0.5 + kafka
+# update ENV for kafka
+ENV KAFKA_HOME=/opt/rta_hc/kafka_2.10-0.9.0.0
+
+# create two directories for logs
+RUN mkdir -p /opt/rta_hc/{kafka-logs,zookeeper-logs}
+
+# Update zookeeper.properties and server.properties
+RUN sed -i.bak 's?^dataDir=.*$?dataDir=/opt/rta_hc/zookeeper-logs?' 	$KAFKA_HOME/config/zookeeper.properties
+RUN sed -i.bak 's?^log.dirs=.*$?log.dirs=/opt/rta_hc/kafka-logs?' 	$KAFKA_HOME/config/server.properties
+RUN sed -i.bak '$a\delete.topic.enable=true' 				$KAFKA_HOME/config/server.properties
+
+# 0.6 + cassandra
+# make cassandra directories
+RUN mkdir -p /opt/rta_hc/cassandra/{commitlog,data,log,saved_caches}
+RUN chown -R cassandra:root /opt/rta_hc/cassandra
+
+# update /etc/cassandra/conf/cassandra.yaml
+RUN sed -i.bak 's?^cluster_name:.*?cluster_name: rpm_cassandra_iot?'						/etc/cassandra/conf/cassandra.yaml
+RUN sed -i.bak 's?^data_file_directories:.*?data_file_directories: [/opt/rta_hc/cassandra/data]?'		/etc/cassandra/conf/cassandra.yaml
+RUN sed -i.bak 's?- /var/lib/cassandra/data?#- /var/lib/cassandra/data?'					/etc/cassandra/conf/cassandra.yaml
+RUN sed -i.bak 's?^saved_caches_directory:.*?saved_caches_directory: /opt/rta_hc/cassandra/saved_caches?'	/etc/cassandra/conf/cassandra.yaml
+RUN sed -i.bak 's?^commitlog_directory:.*?commitlog_directory: /opt/rta_hc/cassandra/commitlog?'		/etc/cassandra/conf/cassandra.yaml
+RUN sed -i.bak 's?^rpc_address:.*?rpc_address: '$cloud_server'?'						/etc/cassandra/conf/cassandra.yaml
+RUN sed -i.bak 's?^# broadcast_rpc_address:.*?broadcast_rpc_address: 1.2.3.4?'					/etc/cassandra/conf/cassandra.yaml
+#RUN sed -i.bak 's?seeds: "127.0.0.1"?seeds: "localhost,0.0.0.0"?' 						/etc/cassandra/conf/cassandra.yaml 
+
+
+# update default.conf/logback.xml
+RUN sed -i.bak 's?>${cassandra.logdir}/system.log<?>/opt/rta_hc/cassandra/log/system.log<?' 	/etc/cassandra/default.conf/logback.xml 
+RUN sed -i.bak 's?>${cassandra.logdir}/debug.log<?>/opt/rta_hc/cassandra/log/debug.log<?' 	/etc/cassandra/default.conf/logback.xml
+
+# config default.conf/cassandra.yaml
+RUN sed -i.bak 's?start_rpc: false?start_rpc: true?' 						/etc/cassandra/default.conf/cassandra.yaml
+
+# config kairosdb
+ENV KAIROSDB_HOME=/opt/rta_hc/kairosdb
+
+# update kairosdb properties
+RUN sed -i.bak 's?jetty.port=8080?jetty.port=9090?' 				$KAIROSDB_HOME/conf/kairosdb.properties
+RUN sed -i.bak 's?\(.*H2Module\)?#\1?' 						$KAIROSDB_HOME/conf/kairosdb.properties
+RUN sed -i.bak 's?\(.*concurrentQueryThreads.*\)?\1?' 				$KAIROSDB_HOME/conf/kairosdb.properties
+RUN sed -i.bak 's?#\(.*CassandraModule\)?\1?' 					$KAIROSDB_HOME/conf/kairosdb.properties
+RUN sed -i.bak 's?\(.*host_list\)=localhost:9160?\1='$cloud_server':9160?' 	$KAIROSDB_HOME/conf/kairosdb.properties
+RUN sed -i.bak 's?\(.*keyspace\)=.*?\1=iot_hc_grafana?' 			$KAIROSDB_HOME/conf/kairosdb.properties
+
+# config grafana
+RUN sed -i.bak '$a\[plugin.kairosdb]'					/usr/share/grafana/conf/defaults.ini
+RUN sed -i.bak '$a\path = /opt/rta_hc/kairosdb-datasource-master' 	/usr/share/grafana/conf/defaults.ini
+
+# config platfotm monitr
+#WORKDIR /opt/rta_hc/rta-hc-framework-master
+
+# config HDFS
+ENV HADOOP_HOME=/opt/rta_hc/hadoop-2.7.3
+ENV PATH=$PATH:$HADOOP_HOME/bin
+
+# config JAVA_HOME for hdfs
+RUN sed -i.bak 's?${JAVA_HOME}?'$JAVA_HOME'?' $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+
+# edit etc/hadoop/core-site.xml
+RUN sed -i.bak 's?</configuration>??' $HADOOP_HOME/etc/hadoop/core-site.xml
+RUN sed -i.bak '$a\<property> \
+<name>fs.defaultFS</name> \
+<value>hdfs://'$cloud_server':9000</value> \
+</property> \
+</configuration>' $HADOOP_HOME/etc/hadoop/core-site.xml
+
+# edit etc/hadoop/hdfs-site.xml
+RUN sed -i.bak 's?</configuration>??' $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+RUN sed -i.bak '$a\<property> \
+<name>dfs.replication</name> \
+<value></value> \
+</property> \
+<property> \
+<name>dfs.namenode.name.dir</name> \
+<value>/opt/rta_hc/hadoop-2.7.3/data-dir</value> \
+<description>Comma-separated list of paths. Use the list of directories from $DFS_NAME_DIR. </description> \
+</property> \
+<property> \
+<name>dfs.namenode.data.dir</name> \
+<value>/opt/rta_hc/hadoop-2.7.3/name-dir</value> \
+<description>Comma-separated list of paths. Use the list of directories from $DFS_DATA_DIR. </description> \
+</property> \
+</configuration>' $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+
+# config rta.properties
+RUN sed -i.bak 's?kafka.host_port.*$?kafka.host_port='$cloud_server':9092?'			 /opt/rta_hc/rta-hc-framework-master/conf/rta.properties
+RUN sed -i.bak 's?zookeeper.host_port.*$?zookeeper.host_port='$cloud_server':9092?'		 /opt/rta_hc/rta-hc-framework-master/conf/rta.properties
+RUN sed -i.bak 's?cassandra.cluster.*$?cassandra.cluster='$cloud_server'?'			 /opt/rta_hc/rta-hc-framework-master/conf/rta.properties
+RUN sed -i.bak 's?kairosdb.url.*$?kairosdb.url=http://'$cloud_server':9090/api/v1/datapoints?'	 /opt/rta_hc/rta-hc-framework-master/conf/rta.properties
+
+# config for ssh
+RUN sed -i.bak 's?#   StrictHostKeyChecking ask?StrictHostKeyChecking no?' /etc/ssh/ssh_config
+
+# expose port for ssh
+EXPOSE 22
+# expose port for tomcat
+EXPOSE 9797
+# expose port for kafka
+EXPOSE 9090
+# expose port for grafana
+EXPOSE 3000
+# exposr port for kairosdb
+EXPOSE 9160
+# expose port for spark
+EXPOSE 1111
+EXPOSE 7077
+# expose port for web monitor
+EXPOSE 8889
+EXPOSE 9000

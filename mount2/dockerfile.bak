@@ -1,0 +1,102 @@
+# Dockerfile for rta_hc_install
+FROM centos:latest
+LABEL Vendor="Hewlett Packard Enterprise" Version="0.1"
+
+# Prerequisites
+RUN yum -y install wget
+RUN yum -y install bzip2
+RUN yum -y install unzip
+RUN yum -y install net-tools
+RUN yum -y install openssh-clients
+RUN yum -y install openssh-server
+
+# start ssh service
+RUN ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -N ''
+RUN ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
+RUN ssh-keygen -t dsa -f /etc/ssh/ssh_host_ed25519_key -N ''
+
+# 0.1	+ Python (anaconda2) + kafka-python
+# Retrieve anaconda2 for Linux from https://www.continuum.io/downloads
+RUN wget https://repo.continuum.io/archive/Anaconda2-4.1.1-Linux-x86_64.sh -O /opt/anaconda2.sh
+
+# Install anaconda2 into /opt/mount1/anaconda2
+RUN bash /opt/anaconda2.sh -b -p /opt/mount1/anaconda2
+
+# Install kafka-python
+RUN /opt/mount1/anaconda2/bin/pip install kafka-python
+
+# 0.2 + Java
+WORKDIR /opt/mount1/rta-hc
+
+# Download java
+RUN wget --no-cookies --no-check-certificate --header \
+"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" \
+"http://download.oracle.com/otn-pub/java/jdk/8u72-b15/jdk-8u72-linux-x64.tar.gz" -e use_proxy=yes
+
+# Install java
+RUN gunzip jdk-8u72-linux-x64.tar.gz
+RUN tar xvf jdk-8u72-linux-x64.tar
+
+# 0.3	+ tomcat
+WORKDIR /opt/mount1
+
+# Download Apache Tomcat
+RUN wget https://archive.apache.org/dist/tomcat/tomcat-7/v7.0.61/bin/apache-tomcat-7.0.61.tar.gz
+
+# Install Apache Tomcat
+RUN gunzip apache-tomcat-7.0.61.tar.gz
+RUN tar xvf apache-tomcat-7.0.61.tar
+
+# Download simpleiothttp2kafka from Servlet
+# RUN wget https://github.hpe.com/vincent-planat/rta-hc-framework/blob/master/bin/simpleiohttp2kafka.war
+RUN wget http://10.3.35.93/rta_hc/simpleiothttp2kafka.war
+
+# Install simpleiothttp2kafka
+# RUN unzip -d /opt/mount1/apache-tomcat-7.0.61/webapps/simpleiothttp2kafka simpleiothttp2kafka.war 
+RUN mv simpleiothttp2kafka.war /opt/mount1/apache-tomcat-7.0.61/webapps 
+
+# 0.4 + spark
+# WORKDIR /opt/mount1
+
+# Download spark
+RUN wget http://apache.mirrors.spacedump.net/spark/spark-1.6.1/spark-1.6.1-bin-hadoop2.6.tgz
+
+# Install spark
+RUN tar xvf spark-1.6.1-bin-hadoop2.6.tgz
+
+# 0.5 + kafka
+# WORKDIR /opt/mount1
+
+# Download kafka
+RUN wget http://apache.mirrors.spacedump.net/kafka/0.9.0.0/kafka_2.10-0.9.0.0.tgz
+
+# Install kafka
+RUN tar xvf kafka_2.10-0.9.0.0.tgz
+
+# 0.6 + cassandra
+# Add DataStax repository
+WORKDIR /etc/yum.repos.d
+RUN touch datastax.repo
+RUN echo '[datastax]' > datastax.repo
+RUN sed -i.bak '$a\name = DataStax Repo for Apache Cassandra' datastax.repo
+RUN sed -i.bak '$a\baseurl = http://rpm.datastax.com/community' datastax.repo
+RUN sed -i.bak '$a\enabled = 1' datastax.repo
+RUN sed -i.bak '$a\gpgcheck = 0' datastax.repo
+
+# Install cassandra
+RUN yum -y install dsc22
+RUN yum -y install cassandra22-tools 
+
+# Install KairosDB
+WORKDIR /opt/mount1
+RUN wget https://github.com/kairosdb/kairosdb/releases/download/v1.1.1/kairosdb-1.1.1-1.tar.gz
+RUN gunzip kairosdb-1.1.1-1.tar.gz
+RUN tar xvf kairosdb-1.1.1-1.tar
+
+# Install Grafana
+RUN yum -y install https://grafanarel.s3.amazonaws.com/builds/grafana-3.0.1-1.x86_64.rpm
+
+# Install kairosdb plugin
+WORKDIR /opt/mount1/rta-hc
+RUN wget https://github.com/grafana/kairosdb-datasource/archive/master.zip
+RUN unzip master.zip

@@ -1,0 +1,74 @@
+# Dockerfiel for rta_hc
+FROM rta_hc_conf:laCheck
+
+ENTRYPOINT ["/opt/mount1/docker-kafka-start.sh"]
+
+# Check python path
+WORKDIR /opt/mount1
+RUN python --version >> diag.log
+
+# Check java path
+RUN java -version >> diag.log
+
+# Check tomcat settings
+RUN cat $TOMCAT_HOME/conf/server.xml|grep 9797 >> diag.log
+RUN cat $TOMCAT_HOME/webapps/simpleiothttp2kafka/WEB-INF/web.xml|grep 9092 >> diag.log
+
+# Check spark
+RUN cat $SPARK_HOME/conf/spark-env.sh|grep SAPRK_HOME >> diag.log
+RUN cat $SPARK_HOME/conf/spark-env.sh|grep SPARK_MASTER_WEBUI_PORT >> diag.log
+RUN cat $SPARK_HOME/conf/spark-env.sh|grep SPARK_MASTER_IP >> diag.log
+RUN cat $SPARK_HOME/conf/spark-env.sh|grep SPARK_LOCAL_IP >> diag.log
+RUN cat $SPARK_HOME/conf/spark-env.sh|grep SPARK_WORKER_MEMORY >> diag.log
+RUN cat $SPARK_HOME/conf/spark-env.sh|grep HADOOP_CONF_DIR >> diag.log
+RUN cat $SPARK_HOME/conf/spark-env.sh|grep PYSPARK_PYTHON >> diag.log
+RUN cat $SPARK_HOME/conf/spark-env.sh|grep PYSPARK_DRIVER_PYTHON >> diag.log
+
+RUN cat $SPARK_HOME/conf/spark-defaults.conf|grep spark.master >> diag.log
+RUN cat $SPARK_HOME/conf/spark-defaults.conf|grep spark.driver.memory >> diag.log
+RUN cat $SPARK_HOME/conf/spark-defaults.conf|grep spark.executor.memory >> diag.log
+
+RUN cat $SPARK_HOME/conf/slaves|grep localhost >> diag.log
+
+# Check kafka
+RUN ls /opt/mount1 >> diag.log
+RUN cat $KAFKA_HOME/config/zookeeper.properties|grep dataDir >> diag.log
+RUN cat $KAFKA_HOME/config/server.properties|grep log.dirs >> diag.log
+RUN cat $KAFKA_HOME/config/server.properties|grep delete.topic.enable >> diag.log
+
+# Check kafka topics config
+RUN $KAFKA_HOME/bin/kafka-topics.sh --list --zookeeper 0.0.0.0:2181 >> diag.log
+
+# Check cassandra
+Run ls /opt/mount1/cassandra >> diag.log
+RUN cat conf/cassandra.yaml|grep seeds >> diag.log 
+
+RUN cat default.conf/logback.xml|grep "system.log<"
+RUN cat default.conf/logback.xml|grep "debug.log<"
+
+RUN cat default.conf/cassandra.yaml |grep start_rpc
+RUN cat default.conf/cassandra.yaml |grep rpc_address
+RUN cat default.conf/cassandra.yaml |grep rpc_port
+
+# Check cassandra keyspace
+select
+
+# Check kairosdb
+RUN cat $KAIROSDB_HOME/conf/kairosdb.properties | grep jetty.port
+RUN cat $KAIROSDB_HOME/conf/kairosdb.properties | grep H2Module
+RUN cat $KAIROSDB_HOME/conf/kairosdb.properties | grep concurrent
+RUN cat $KAIROSDB_HOME/conf/kairosdb.properties | grep CassandraModule
+RUN cat $KAIROSDB_HOME/conf/kairosdb.properties | grep host_list
+RUN cat $KAIROSDB_HOME/conf/kairosdb.properties | grep keyspace
+
+# Check grafana
+RUN cat /etc/grafana/grafana.ini | grep plugin.kairosdb >> diag.log
+RUN cat /etc/grafana/grafana.ini | grep kairosdb-datasource-master >> diag.log
+
+# Check kairosdb start
+RUN curl POST http://0.0.0.0:9090/api/v1/datapoints \
+[{"name":"accelerometer-x","timestamp":1458632210606,"value":"0.991211","tags":{"deviceid":"b81e905908354542","userid":"vincent.planat@hpe.com"}},\
+{"name":"accelerometer-y","timestamp":1458632210606,"value":"-0.027588","tags":{"deviceid":"b81e905908354542","userid":"vincent.planat@hpe.com"}},\
+{"name":"accelerometer-z","timestamp":1458632210606,"value":"0.015625","tags":{"deviceid":"b81e905908354542","userid":"vincent.planat@hpe.com"}}]
+
+

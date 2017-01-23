@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8"> 
+   <title>Server processor list</title>
+   <!-- Latest compiled and minified CSS -->
+   <link rel="stylesheet" href="/static/bootstrap.min.css" > 
+   <script src="/static/jquery-3.1.0.min.js"></script>
+   <!-- Optional theme -->
+   <link rel="stylesheet" href="/static/bootstrap-theme.min.css">
+
+   <!-- Latest compiled and minified JavaScript -->
+   <script src="/static/bootstrap.min.js"></script>
+
+   <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+   </script>
+
+   <script type="text/javascript">
+      $(function() {
+       $('.run').bind('click', function() {
+         $.getJSON($SCRIPT_ROOT + '/run', {
+           job: $(this).attr('id')
+         }, function(data) {
+           alert(data.result)
+           location.reload();
+         });
+         return false;
+       })
+
+       $('#refresh').bind('click',function(){
+          $.post("/result")
+       })
+
+        $('#shutdown').bind('click',function(){
+          $.post("/shutdown")
+       })
+
+        $('.stop').bind('click', function() {
+         $.getJSON($SCRIPT_ROOT + '/stop', {
+           job: $(this).attr('id')
+         }, function(data) {
+           alert(data.result)
+           location.reload();
+         });
+         return false;
+       });
+     });
+
+//       $(document).ready(function(){
+//             $(".run").click(function() {
+//                console.log($(".run"))
+//                $.post( "/run", { 'action':$(".run").id})
+//                  .done(function( data ) {
+//                    alert( "Data Loaded: " + data );
+//                  })
+
+//                 .fail(function() {
+//                     alert( "server error");
+//                   });
+//             });
+//       });
+  </script>
+   
+   <!-- setting auto refresh seconds -->
+  <!--  <meta http-equiv="refresh" content="15"> -->
+</head>
+<body>
+
+<table class="table table-striped">
+   <!-- <caption>As belowing was monitering {{ hostname}} server's processor, it's showing running or not start?</caption> -->
+   <thead>
+      <tr>
+         <h1 style='margin:0 auto; text-align:center'>{{ hostname}}</h1>
+      </tr>
+   </thead>
+   <tbody>
+      <tr>
+         {{result}}
+      </tr>
+   </tbody>
+</table>
+</body>
+
+</html>

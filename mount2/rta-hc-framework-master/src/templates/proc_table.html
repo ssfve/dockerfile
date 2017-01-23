@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8"> 
+   <title>Server processor list</title>
+   <!-- Latest compiled and minified CSS -->
+   <link rel="stylesheet" href="/static/bootstrap.min.css" > 
+   <script src="/static/jquery-3.1.0.min.js"></script>
+   <!-- Optional theme -->
+   <link rel="stylesheet" href="/static/bootstrap-theme.min.css">
+
+   <!-- Latest compiled and minified JavaScript -->
+   <script src="/static/bootstrap.min.js"></script>
+
+   <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+   </script>
+
+   <script type="text/javascript">
+      $(function() {
+       $('.run').bind('click', function() {
+         $.getJSON($SCRIPT_ROOT + '/run', {
+           job: $(this).attr('id')
+         }, function(data) {
+           alert(data.result)
+           location.reload();
+         });
+         return false;
+       })
+
+        $('.tail').bind('click', function() {
+         window.open("/log?logtype="+$(this).attr('id'))
+         // windows.open('/web?job='+$(this).attr('id'))
+         $.getJSON($SCRIPT_ROOT + '/tail', {
+           job: $(this).attr('id')
+         }, function(data) {
+            // alert(data)
+           // alert(data.result)
+           // $.post("/result")
+         });
+         return false;
+       })
+
+       $('#refresh').bind('click',function(){
+          window.location.reload()
+       })
+
+        $('#shutdown').bind('click',function(){
+          $.post("/shutdown")
+       })
+
+        $('.stop').bind('click', function() {
+         $.getJSON($SCRIPT_ROOT + '/stop', {
+           job: $(this).attr('id')
+         }, function(data) {
+           alert(data.result)
+           location.reload();
+         });
+         return false;
+       });
+     });
+
+//       $(document).ready(function(){
+//             $(".run").click(function() {
+//                console.log($(".run"))
+//                $.post( "/run", { 'action':$(".run").id})
+//                  .done(function( data ) {
+//                    alert( "Data Loaded: " + data );
+//                  })
+
+//                 .fail(function() {
+//                     alert( "server error");
+//                   });
+//             });
+//       });
+  </script>
+   
+   <!-- setting auto refresh seconds -->
+  <!--  <meta http-equiv="refresh" content="15"> -->
+</head>
+<body>
+
+<table class="table table-striped">
+   <!-- <caption>As belowing was monitering {{ hostname}} server's processor, it's showing running or not start?</caption> -->
+   <thead>
+      <tr>
+         <h1 style='margin:0 auto; text-align:center'>{{ hostname}}</h1>
+      </tr>
+      <tr>
+         <th>PID</th>
+         <th>Processor Name</th>
+         <th>Status</th>
+         <th>Action</th>
+      </tr>
+   </thead>
+   <tbody>
+      {% for item in result %}
+      <tr>
+         <td>{{ item.get('PID') }}</td>
+         <td>{{ item.get('processor')}}</td>
+         {% if item.get('status') == 'Running'%}
+         <td><font color="#8FFF44">{{ item.get('status') }}</font></td>
+         {%else%}
+         <td><font color="#F81919">{{ item.get('status') }}</font></td>
+         {% endif %}
+         <td><button id='{{ item.get('processor') }}' type="button" style="float:left;margin-right:10px;" class="btn btn-success tail">tail log</button>
+         </td>
+         <!-- <td><button id='{{ item.get('processor') }}' type="button" style="float:left;margin-right:10px;" class="btn btn-success run">Run</button>
+            <button id = '{{item.get('processor')}}'type="button" style="float:left;margin-right:10px;" class="btn btn-danger stop">Stop</button>
+         </td> -->
+      </tr>
+       {% endfor %}
+       <tr>
+         <td></td>
+         <td>spark</td>
+         <td></td>
+         <td></td>
+         <td></td>
+      </tr>
+       {% for item in spark_ls %}
+       <tr>
+          <td>{{ item.get('PID') }}</td>
+         <td>{{ ' '+item.get('processor').split('<')[1].split('>')[0]}}</td>
+         {% if item.get('status') == 'Running'%}
+         <td><font color="#8FFF44">{{ item.get('status') }}</font></td>
+         {%else%}
+         <td><font color="#F81919">{{ item.get('status') }}</font></td>
+         {% endif %}
+         <td><button id='{{ item.get('processor') }}' type="button" style="float:left;margin-right:10px;" class="btn btn-success tail">tail log</button>
+         <!-- <td><button id='{{ item.get('processor') }}' type="button" style="float:left;margin-right:10px;" class="btn btn-success run">Run</button>
+            <button id = '{{item.get('processor')}}'type="button" style="float:left;margin-right:10px;" class="btn btn-danger stop">Stop</button>
+         </td> -->
+      </tr>
+      {% endfor %}
+   </tbody>
+</table>
+  <div style="margin:0 auto; text-align:center" ><button id="refresh" type="button" class="btn btn-success refresh">refresh</button></div>
+  <!-- <div style="margin:0 auto; text-align:center" ><button id="shutdown" type="button" class="btn btn-success run">stop webserver</button></div> -->
+</body>
+</body>
+
+</html>
